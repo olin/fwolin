@@ -7,29 +7,55 @@
   <title>fwol.in</title>
 
   <style type="text/css">
-  body, html { margin: 1em auto; width: 600px; font-family: Helvetica, sans-serif;}
+  body, html { margin: 1em auto; width: 400px; font-family: Helvetica, sans-serif;}
 
   #logo, #desc { text-align: center; }
   #logo { margin-bottom: 0.25em; }
+  #logo a { text-decoration: none; }
+  #desc { margin-bottom: 2em; }
+
+  .t { opacity: 0.25; -moz-opacity: 0.25; -webkit-opacity: 0.25; }
+
+  #apps, #apps li { display: block; padding: 0; margin: 0; list-style: none; }
+  #apps li {margin-bottom: 1.5em; cursor: pointer;}
+
+#apps h2, #apps p { margin: 0.3em 0;}
+
   </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script>
+  $(function () {
+    $('#apps li').click(function () {
+      window.location = $(this).find('a').prop('href')
+    })
+  })
+  </script>
 </head>
 
 <body>
-  <h1 id="logo">f w ol.in</h1>
+  <h1 id="logo"><a href="http://fwol.in"><span class="t">http://</span> f w ol.in <span class="t">/</span></a></h1>
   <p id="desc"><b>Apps for Olin students.</b></p>
 
   <ul id="apps">
-    <li>
-      <h2><a href="http://mrwiki.fwol.in/">MrWiki</a></h2>
-      <p>A community wiki for Olin information.</p>
-    </li>
-    <li>
+    <li class="t">
       <h2><a href="http://directory.fwol.in/">Directory</a></h2>
       <p>A directory of Olin webpages.</p>
     </li>
     <li>
+      <h2><a href="http://mrwiki.fwol.in/">MrWiki</a></h2>
+      <p>A community wiki for Olin information.</p>
+    </li>
+    <li class="t">
       <h2><a href="http://seamlist.fwol.in/">Seamlist</a></h2>
-      <p>Easy mailing lists.</p>
+      <p>Lists.olin.edu made easy, searchable, useful.</p>
+    </li>
+    <li class="t">
+      <h2><a href="http://map.fwol.in/">Maurauder's Map</a></h2>
+      <p>See who's around campus.</p>
+    </li>
+    <li class="t">
+      <h2><a href="http://pad.fwol.in/">OlinPad</a></h2>
+      <p>Quick, collaborative editing for teams or signups.</p>
     </li>
   </ul>
 
