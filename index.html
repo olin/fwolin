@@ -18,8 +18,10 @@
 
   #apps, #apps li { display: block; padding: 0; margin: 0; list-style: none; }
   #apps li {margin-bottom: 1.5em; cursor: pointer;}
-
-#apps h2, #apps p { margin: 0.3em 0;}
+  #apps h2, #apps p { margin: 0.3em 0;}
+  #apps a { text-decoration: none; }
+  #apps .name { text-decoration: underline; }
+  #apps .url:hover { text-decoration: underline; color: #777; font-weight: bold;}
 
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -38,23 +40,23 @@
 
   <ul id="apps">
     <li class="t">
-      <h2><a href="http://directory.fwol.in/">Directory</a></h2>
+      <h2><a href="http://directory.fwol.in/"><span class="name">Directory</span> <small class="url">http://directory.fwol.in/</small></a></h2>
       <p>A directory of Olin webpages.</p>
     </li>
     <li>
-      <h2><a href="http://mrwiki.fwol.in/">MrWiki</a></h2>
+      <h2><a href="http://mrwiki.fwol.in/"><span class="name">MrWiki</span> <small class="url">http://mrwiki.fwol.in/</small></a></h2>
       <p>A community wiki for Olin information.</p>
     </li>
     <li class="t">
-      <h2><a href="http://seamlist.fwol.in/">Seamlist</a></h2>
+      <h2><a href="http://seamlist.fwol.in/"><span class="name">Seamlist</span> <small class="url">http://seamlist.fwol.in/</small></a></h2>
       <p>Lists.olin.edu made easy, searchable, useful.</p>
     </li>
     <li class="t">
-      <h2><a href="http://map.fwol.in/">Maurauder's Map</a></h2>
+      <h2><a href="http://map.fwol.in/"><span class="name">Maurauder's Map</span> <small class="url">http://map.fwol.in/</small></a></h2>
       <p>See who's around campus.</p>
     </li>
     <li class="t">
-      <h2><a href="http://pad.fwol.in/">OlinPad</a></h2>
+      <h2><a href="http://pad.fwol.in/"><span class="name">OlinPad</span> <small class="url">http://pad.fwol.in/</small></a></h2>
       <p>Quick, collaborative editing for teams or signups.</p>
     </li>
   </ul>
