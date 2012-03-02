@@ -9,41 +9,57 @@
 <script type="text/javascript">
 
 $(function () {
-	// cache links
+	var ANIM_SPEED = 'fast'
+
+	// Cache links list.
 	var links = {}
 	$('#app-list p').each(function () {
 		links[$(this).text().toLowerCase()] = this
 	})
 
+	// Return the first shortcut link.
 	function getFirstLink() {
 		return $('#app-list p:visible:first')[0]
 	}
 
-	function filterList() {
-		$.each(links, function () {
-			$(this).show()
-		})
+	// Filter lists based on a keywords array.
+	function filterList(keywords) {
+		// When filtering, hide headers.
+		keywords.length ? $('#launchpad h2').hide(ANIM_SPEED) : $('#launchpad h2').show(ANIM_SPEED)
 
-		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim)
-		keywords.length ? $('#launchpad h2').hide() : $('#launchpad h2').show()
-		$.each(links, function (title, link) {
-			$(link).removeClass('first')
-			$.each(keywords, function (_, keyword) {
-				if (!title.match(keyword))
-					$(link).hide()
+		// If there are no keywords, show all links.
+		if (!keywords.length)
+			$.each(links, function (title, link) {
+				$(link).show()
 			})
-		})
+		else
+			$.each(links, function (title, link) {
+				$(link).removeClass('first')
+				$.each(keywords, function (_, keyword) {
+					if (!title.match(keyword))
+						$(link).hide()
+					else
+						$(link).show()
+				})
+			})
 
-		// first link shortcut
+		// Include shortcut for first link.
 		var first = getFirstLink()
 		$(first).addClass('first')
-		first ? $('#quick-link').show() : $('#quick-link').hide()
+		first ? $('#quick-link').show(ANIM_SPEED) : $('#quick-link').hide(ANIM_SPEED)
 		$('#quick-link-name').text($(first).text())
 	}
 
-	$('#filter-input').keyup(filterList).focus()
-	filterList()
+	// Keyup filter.
+	$('#filter-input').keyup(function () {
+		// Filter keywords
+		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim)
+		filterList(keywords)
+	}).focus()
+	// Filter initially so we update shortcut link.
+	filterList([])
 
+	// First link shortcut.
 	$('#filter-form').submit(function () {
 		var first = getFirstLink()
 		if (first)
@@ -56,27 +72,29 @@ $(function () {
 
 <style>
 
-body { font-family: Tahoma, sans-serif; background: #aaa; color: white; }
+body { font-family: Tahoma, sans-serif; background: #ccc; color: #444;}
+#launchpad { width: 890px; margin: 0 auto; }
 
 h1 { margin: 0; padding: 0.5em 0.5em 0 }
-h2 { clear: both; margin: 0; padding: 10px 0 0.25em; font-size: 1.2em }
+h2 { clear: both; margin: 0; padding: 10px 0 0.25em; font-size: 1.3em }
+h1, h2, form { text-shadow: #aaa 1px 1px 1px; }
 
-#launchpad { width: 1040px; background: #445; margin: 0 auto; }
+h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 
 #filter-form { font-size: 1.2em; margin: 1em; }
 #filter-form input { border-width: 1px; font-size: 1.0em; padding: 0.2em; }
-#quick-link { font-size: 0.8em; color: #fc3; font-style: italic }
+#quick-link { font-size: 0.8em; color: #08a; font-style: italic }
 #quick-link-name { font-weight: bold; }
 
 #app-list { margin-top: -10px; }
 #app-list, #app-list p { display: block; margin: 0; padding: 0; }
 #app-list { overflow: auto; padding-left: 10px; font-size: 0.9em; }
 #app-list p { float: left; width: 144px; height: 150px; margin: 1px; text-align: center; }
-#app-list p a { width: 132px; height: 134px; text-decoration: none; font-weight: bold; display: block; background: #eee; border: 2px solid #eee; border-radius: 5px; padding: 5px 3px; }
-#app-list p a:hover, #app-list p.first a { background: #fff; border: 2px solid #fa0; }
+#app-list p a { width: 132px; height: 134px; text-decoration: none; font-weight: bold; display: block; background: #eee; border: 2px solid #eee; padding: 6px 4px; border: 1px solid #888; cursor: pointer; box-shadow: #aaa 2px 2px 2px ;}
+#app-list p a:hover, #app-list p.first a { background: #fff; border: 2px solid #fa0; padding: 5px 3px;}
 #app-list p img { display: block; width: 90px; height: 90px; margin: 10px auto }
 
-#footer { font-size: 0.7em; text-align: center; padding: 0.5em; color: white; }
+#footer { font-size: 0.7em; text-align: center; padding: 0.5em; }
 
 </style>
 </head> 
@@ -84,10 +102,10 @@ h2 { clear: both; margin: 0; padding: 10px 0 0.25em; font-size: 1.2em }
 
 <div id="launchpad">
 
-<h1>Fwol.in &nbsp;&nbsp;<small><small>An online portal for the Olin community.</small></small></h1>
+<h1><a href="http://fwol.in/">f w ol.in</a> &nbsp; <span class="desc">An online portal for the Olin community.</span></h1>
 
 <form id="filter-form">
-<p>Filter by name: <input type="text" size="20" id="filter-input" /> <span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span></p></form> 
+<p>Filter by title: <input type="text" size="20" id="filter-input" /> <span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span></p></form> 
 </form> 
  
 <div id="app-list"> 
@@ -160,19 +178,20 @@ h2 { clear: both; margin: 0; padding: 10px 0 0.25em; font-size: 1.2em }
 <p><a href="http://olingear.olin.edu/" title="Olin Gear" target="_parent">Olin Gear <img src="images/olingear.png"></a> 
 
 <h2>Schools</h2>
-<p><a href="?c=brandeis" title="[+] Brandeis" target="_parent">[+] Brandeis <img class="category" src="images/brandeis.png"></a> 
+<p><a href="http://www.olin.edu" title="Olin College" target="_parent">Olin College <img src="images/olin.png"></a> 
 <p><a href="?c=babson" title="[+] Babson" target="_parent">[+] Babson <img class="category" src="images/babson.png"></a> 
 <p><a href="?c=wellesley" title="[+] Wellesley" target="_parent">[+] Wellesley <img class="category" src="images/wellesley.png"></a> 
-<p><a href="http://www.olin.edu" title="Olin College" target="_parent">Olin College <img src="images/olin.png"></a> 
+<p><a href="?c=brandeis" title="[+] Brandeis" target="_parent">[+] Brandeis <img class="category" src="images/brandeis.png"></a> 
 
 </div> 
 
+</div>
+
 <p id="footer">
-Launchpad 2.0 by <a href="http://nomagicsmoke.com/" target="_blank" title="Jeffrey Stanton's Website [new window]">Jeffrey Stanton (2010)</a>.
+Launchpad 3.0 maintained by <a href="http://ohack.us/">OHACK</a>.<br>
+Launchpad 2.0 by <a href="http://nomagicsmoke.com/" target="_blank" title="Jeffrey Stanton's Website [new window]">Jeffrey Stanton (2010)</a>.<br>
 Original version by <a href="http://www.grgmrr.com/" title="Greg Marra's Website [new window]" target="_blank">Greg Marra (2010)</a>.
 </p>
-
-</div>
  
 </body> 
 </html> 
