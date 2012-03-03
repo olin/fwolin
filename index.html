@@ -72,7 +72,7 @@ $(function () {
 
 <style>
 
-body { font-family: Tahoma, sans-serif; background: #ccc; color: #444;}
+body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; background: #ddd; color: #444;}
 #launchpad { width: 890px; margin: 0 auto; }
 
 h1 { margin: 0; padding: 0.5em 0.5em 0 }
@@ -83,16 +83,18 @@ h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 
 #filter-form { font-size: 1.2em; margin: 1em; }
 #filter-form input { border-width: 1px; font-size: 1.0em; padding: 0.2em; }
-#quick-link { font-size: 0.8em; color: #08a; font-style: italic }
+#quick-link { font-size: 0.8em; color: #04a; font-style: italic }
 #quick-link-name { font-weight: bold; }
 
 #app-list { margin-top: -10px; }
 #app-list, #app-list p { display: block; margin: 0; padding: 0; }
 #app-list { overflow: auto; padding-left: 10px; font-size: 0.9em; }
 #app-list p { float: left; width: 144px; height: 150px; margin: 1px; text-align: center; }
-#app-list p a { width: 132px; height: 134px; text-decoration: none; font-weight: bold; display: block; background: #eee; border: 2px solid #eee; padding: 6px 4px; border: 1px solid #888; cursor: pointer; box-shadow: #aaa 2px 2px 2px ;}
+#app-list p a { width: 132px; height: 134px; text-decoration: none; display: block;
+	background: #eee; border: 2px solid #eee; padding: 6px 4px; border: 1px solid #888; cursor: pointer; box-shadow: #aaa 2px 2px 2px;
+	color: black; font-size: 14px;}
 #app-list p a:hover, #app-list p.first a { background: #fff; border: 2px solid #fa0; padding: 5px 3px;}
-#app-list p img { display: block; width: 90px; height: 90px; margin: 10px auto }
+#app-list p img { display: block; width: 90px; height: 90px; margin: 5px auto 10px; }
 
 #footer { font-size: 0.7em; text-align: center; padding: 0.5em; }
 
@@ -111,77 +113,77 @@ h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 <div id="app-list"> 
 
 <h2>Apps</h2>
-<p><a href="http://answers.fwol.in/" title="Olin Answers" target="_parent">Olin Answers <img src="images/directry.png"></a> 
-<p><a href="http://directory.fwol.in/" title="Directory" target="_parent">Olin Directory <img src="images/directry.png"></a> 
-<p><a href="http://seamlist.olin.edu" title="Seamlist" target="_parent">Seamlist <img src="images/mrwiki.jpg"></a>
-<p><a href="http://map.fwol.in" title="Marauder's Map" target="_parent">Marauder's Map <img src="images/map.jpg"></a> 
-<p><a href="http://pad.fwol.in" title="OlinPad" target="_parent">OlinPad <img src="images/map.jpg"></a> 
-<p><a href="http://guesstheoliner.fwol.in" title="Guess the Oliner" target="_parent">Guess The Oliner <img src="images/guesstheoliner.png"></a> 
-<p><a href="http://halp.fwol.in/" title="HALP" target="_parent">HALP <img src="images/halp.png"></a> 
-<p><a href="https://twitter.com/olindiningmenu" title="@olindiningmenu" target="_parent">@olindiningmenu <img src="images/halp.png"></a> 
-<p><a href="https://twitter.com/trimdiningmenu" title="@trimdiningmenu" target="_parent">@trimdiningmenu <img src="images/halp.png"></a> 
-<!--<p><a href="http://mrwiki.olin.edu" title="Mr. Wiki" target="_parent">Mr. Wiki <img src="images/mrwiki.jpg"></a> -->
+<p><a href="http://answers.fwol.in/" title="Olin Answers" target="_parent"><img src="images/directry.png"> Olin Answers</a></a> 
+<p><a href="http://directory.fwol.in/" title="Directory" target="_parent"><img src="images/directry.png"> Olin Directory</a></a> 
+<p><a href="http://seamlist.olin.edu" title="Seamlist" target="_parent"><img src="images/mrwiki.jpg"> Seamlist</a></a>
+<p><a href="http://map.fwol.in" title="Marauder's Map" target="_parent"><img src="images/map.jpg"> Marauder's Map</a></a> 
+<p><a href="http://pad.fwol.in" title="OlinPad" target="_parent"><img src="images/map.jpg"> OlinPad</a></a> 
+<p><a href="http://guesstheoliner.fwol.in" title="Guess the Oliner" target="_parent"><img src="images/guesstheoliner.png"> Guess The Oliner</a></a> 
+<p><a href="http://halp.fwol.in/" title="HALP" target="_parent"><img src="images/halp.png"> HALP</a></a> 
+<p><a href="https://twitter.com/olindiningmenu" title="@olindiningmenu" target="_parent"><img src="images/halp.png"> @olindiningmenu</a></a> 
+<p><a href="https://twitter.com/trimdiningmenu" title="@trimdiningmenu" target="_parent"><img src="images/halp.png"> @trimdiningmenu</a></a> 
+<!--<p><a href="http://mrwiki.olin.edu" title="Mr. Wiki" target="_parent"><img src="images/mrwiki.jpg"> Mr. Wiki</a></a> -->
 
 <h2>Resources</h2>
-<p><a href="http://www.olin.edu/student_life/calendars/calendar2010-11.aspx" title="Academic Calendar 2010-2011" target="_parent">Academic Calendar 2010-11 <img src="images/academiccalendar.png"></a> 
-<p><a href="http://scheduler.olin.edu:8080/astraweb/index.jsp?id1=sched_sta&amp;id2=0linsched" title="AdAstra" target="_parent">AdAstra <img src="images/adastra.png"></a> 
-<p><a href="http://10.64.10.12/view/index.shtml" title="Great Lawn Webcam" target="_parent">Great Lawn Webcam<img src="images/camera.jpg"></a> 
-<p><a href="http://www.laundryview.com" title="LaundryView" target="_parent">LaundryView <img src="images/laundry.png"></a> 
-<p><a href="http://lists.olin.edu" title="Mailman" target="_parent">Mailman <img src="images/mailman.png"></a> 
-<p><a href="https://acl.olin.edu/msdnaa/" title="MSDN Software" target="_parent">MSDN Software <img src="images/windows.jpg"></a></p>
-<p><a href="http://www.flickr.com/photos/olin/" title="Olin Photos" target="_parent">Olin Photos <img src="images/flickr.png"></a> 
-<p><a href="http://feeds.olin.edu" title="Olin RSS Feeds" target="_parent">Olin RSS Feeds <img src="images/feeds.png"></a> 
-<p><a href="http://onecard.olin.edu" title="One Card" target="_parent">One Card <img src="images/onecard.png"></a> 
-<p><a href="http://awesome.olin.edu" title="OSA" target="_parent">OSA <img src="images/osa.png"></a> 
-<p><a href="http://www3.babson.edu/offices/public_safety/forms_regulations/parking_appeal.cfm" title="Parking Ticket Appeal Form" target="_parent">Parking Ticket Appeal Form <img src="images/parkingticket.png"></a> 
-<p><a href="http://www.planetolin.com" title="Planet Olin" target="_parent">Planet Olin <img src="images/planetolin.png"></a> 
-<p><a href="https://webmail.olin.edu/" title="Webmail" target="_parent">Webmail <img src="images/webmail.png"></a> 
-<p><a href="http://isisweb.olin.edu" title="Workorder" target="_parent">Workorder <img src="images/workorder.png"></a> 
-<p><a href="http://ahs.olin.edu/ahswiki/WritingTutorPage" title="Writing Tutors" target="_parent">Writing Tutors <img src="images/writingtutors.png"></a> 
+<p><a href="http://www.olin.edu/student_life/calendars/calendar2010-11.aspx" title="Academic Calendar 2010-2011" target="_parent"><img src="images/academiccalendar.png"> Academic Calendar 2010-11</a></a> 
+<p><a href="http://scheduler.olin.edu:8080/astraweb/index.jsp?id1=sched_sta&amp;id2=0linsched" title="AdAstra" target="_parent"><img src="images/adastra.png"> AdAstra</a></a> 
+<p><a href="http://10.64.10.12/view/index.shtml" title="Great Lawn Webcam" target="_parent"><img src="images/camera.jpg"> Great Lawn Webcam</a> 
+<p><a href="http://www.laundryview.com" title="LaundryView" target="_parent"><img src="images/laundry.png"> LaundryView</a></a> 
+<p><a href="http://lists.olin.edu" title="Mailman" target="_parent"><img src="images/mailman.png"> Mailman</a></a> 
+<p><a href="https://acl.olin.edu/msdnaa/" title="MSDN Software" target="_parent"><img src="images/windows.jpg"> MSDN Software</a></a></p>
+<p><a href="http://www.flickr.com/photos/olin/" title="Olin Photos" target="_parent"><img src="images/flickr.png"> Olin Photos</a></a> 
+<p><a href="http://feeds.olin.edu" title="Olin RSS Feeds" target="_parent"><img src="images/feeds.png"> Olin RSS Feeds</a></a> 
+<p><a href="http://onecard.olin.edu" title="One Card" target="_parent"><img src="images/onecard.png"> One Card</a></a> 
+<p><a href="http://awesome.olin.edu" title="OSA" target="_parent"><img src="images/osa.png"> OSA</a></a> 
+<p><a href="http://www3.babson.edu/offices/public_safety/forms_regulations/parking_appeal.cfm" title="Parking Ticket Appeal Form" target="_parent"><img src="images/parkingticket.png"> Parking Ticket Appeal Form</a></a> 
+<p><a href="http://www.planetolin.com" title="Planet Olin" target="_parent"><img src="images/planetolin.png"> Planet Olin</a></a> 
+<p><a href="https://webmail.olin.edu/" title="Webmail" target="_parent"><img src="images/webmail.png"> Webmail</a></a> 
+<p><a href="http://isisweb.olin.edu" title="Workorder" target="_parent"><img src="images/workorder.png"> Workorder</a></a> 
+<p><a href="http://ahs.olin.edu/ahswiki/WritingTutorPage" title="Writing Tutors" target="_parent"><img src="images/writingtutors.png"> Writing Tutors</a></a> 
 
 <h2>Portals</h2>
-<p><a href="http://courses.olin.edu" title="Blackboard" target="_parent">Blackboard <img src="images/blackboard.png"></a> 
-<p><a href="?c=courses" title="[+] Courses" target="_parent">[+] Courses <img class="category" src="images/courses.png"></a> 
-<p><a href="https://sis.olin.edu" title="SIS" target="_parent">SIS <img src="images/sis.png"></a> 
-<p><a href="http://my.olin.edu" title="my.olin.edu" target="_parent">my.olin.edu <img src="images/my.png"></a> 
-<p><a href="https://olin-csm.symplicity.com/students/" title="NaceLink" target="_parent">NaceLink <img src="images/nacelink.png"></a> 
+<p><a href="http://courses.olin.edu" title="Blackboard" target="_parent"><img src="images/blackboard.png"> Blackboard</a></a> 
+<p><a href="?c=courses" title="[+] Courses" target="_parent"><img class="category" src="images/courses.png"> [+] Courses</a></a> 
+<p><a href="https://sis.olin.edu" title="SIS" target="_parent"><img src="images/sis.png"> SIS</a></a> 
+<p><a href="http://my.olin.edu" title="my.olin.edu" target="_parent"><img src="images/my.png"> my.olin.edu</a></a> 
+<p><a href="https://olin-csm.symplicity.com/students/" title="NaceLink" target="_parent"><img src="images/nacelink.png"> NaceLink</a></a> 
 
 <h2>Organizations</h2>
-<p><a href="?c=core" title="[+] CORe" target="_parent">[+] CORe <img class="category" src="images/corelogo.png"></a> 
-<p><a href="http://honorboard.olin.edu" title="Honor Board" target="_parent">Honor Board <img src="images/honorboard.png"></a> 
-<p><a href="http://serv.olin.edu" title="SERV" target="_parent">SERV <img src="images/serv.png"></a> 
+<p><a href="?c=core" title="[+] CORe" target="_parent"><img class="category" src="images/corelogo.png"> [+] CORe</a></a> 
+<p><a href="http://honorboard.olin.edu" title="Honor Board" target="_parent"><img src="images/honorboard.png"> Honor Board</a></a> 
+<p><a href="http://serv.olin.edu" title="SERV" target="_parent"><img src="images/serv.png"> SERV</a></a> 
 
 <h2>Clubs</h2>
-<p><a href="http://minibaja.olin.edu" title="Mini Baja" target="_parent">Mini Baja <img src="images/baja.png"></a> 
-<p><a href="http://fwop.olin.edu" title="FWOP" target="_parent">FWOP <img src="images/fwop.png"></a> 
-<p><a href="http://open.olin.edu/" title="Open" target="_parent">Open <img src="images/open.png"></a> 
-<p><a href="http://serv.olin.edu/habitat/" title="Habitat for Humanity" target="_parent">Habitat for Humanity <img src="images/habitat.png"></a> 
-<p><a href="http://hpv.olin.edu/Home.html" title="Human Powered Vehicles" target="_parent">Human Powered Vehicles <img src="images/hpv.jpg"></a> 
-<p><a href="http://ieee.olin.edu" title="IEEE" target="_parent">IEEE <img src="images/ieee.png"></a> 
-<p><a href="http://swe.olin.edu/" title="SWE" target="_parent">SWE <img src="images/swe.png"></a> 
-<p><a href="http://foundry.olin.edu" title="The Foundry" target="_parent">The Foundry <img src="images/foundry.png"></a> 
-<p><a href="http://yearbook.olin.edu" title="Yearbook" target="_parent">Yearbook <img src="images/yearbook.png"></a>
+<p><a href="http://minibaja.olin.edu" title="Mini Baja" target="_parent"><img src="images/baja.png"> Mini Baja</a></a> 
+<p><a href="http://fwop.olin.edu" title="FWOP" target="_parent"><img src="images/fwop.png"> FWOP</a></a> 
+<p><a href="http://open.olin.edu/" title="Open" target="_parent"><img src="images/open.png"> Open</a></a> 
+<p><a href="http://serv.olin.edu/habitat/" title="Habitat for Humanity" target="_parent"><img src="images/habitat.png"> Habitat for Humanity</a></a> 
+<p><a href="http://hpv.olin.edu/Home.html" title="Human Powered Vehicles" target="_parent"><img src="images/hpv.jpg"> Human Powered Vehicles</a></a> 
+<p><a href="http://ieee.olin.edu" title="IEEE" target="_parent"><img src="images/ieee.png"> IEEE</a></a> 
+<p><a href="http://swe.olin.edu/" title="SWE" target="_parent"><img src="images/swe.png"> SWE</a></a> 
+<p><a href="http://foundry.olin.edu" title="The Foundry" target="_parent"><img src="images/foundry.png"> The Foundry</a></a> 
+<p><a href="http://yearbook.olin.edu" title="Yearbook" target="_parent"><img src="images/yearbook.png"> Yearbook</a></a>
 
 <h2>Departments</h2>
-<p><a href="http://projects.olin.edu/ahs/index.html" title="AHS" target="_parent">AHS <img src="images/ahs.png"></a> 
-<p><a href="http://arb.olin.edu/" title="ARB" target="_parent">ARB <img src="images/arb.png"></a> 
-<p><a href="http://star.olin.edu" title="StAR" target="_parent">StAR <img src="images/star.png"></a> 
-<p><a href="http://campusservices.olin.edu/" title="Campus Services" target="_parent">Campus Services <img src="images/campusservices.png"></a> 
-<p><a href="http://www.olindining.com" title="Dining Services" target="_parent">Dining Services <img src="images/diningservices.png"></a> 
-<p><a href="http://campusservices.olin.edu/Facilities.html" title="Facilities" target="_parent">Facilities <img src="images/facilities.png"></a> 
-<p><a href="http://www.olin.edu/pgp/" title="PGP" target="_parent">PGP <img src="images/pgp.png"></a> 
-<p><a href="http://it.olin.edu" title="IT" target="_parent">IT <img src="images/it.png"></a> 
-<p><a href="http://studyaway.olin.edu" title="Study Away" target="_parent">Study Away <img src="images/studyaway.png"></a> 
-<p><a href="http://library.olin.edu" title="Library" target="_parent">Library <img src="images/library.png"></a> 
-<p><a href="http://machineshop.olin.edu" title="Machine Shop" target="_parent">Machine Shop <img src="images/machineshop.png"></a> 
-<p><a href="http://projects.robotics.olin.edu/index.php/Main_Page" title="Robotics Lab" target="_parent">Robotics Lab <img src="images/robotics.png"></a> 
-<p><a href="http://olingear.olin.edu/" title="Olin Gear" target="_parent">Olin Gear <img src="images/olingear.png"></a> 
+<p><a href="http://projects.olin.edu/ahs/index.html" title="AHS" target="_parent"><img src="images/ahs.png"> AHS</a></a> 
+<p><a href="http://arb.olin.edu/" title="ARB" target="_parent"><img src="images/arb.png"> ARB</a></a> 
+<p><a href="http://star.olin.edu" title="StAR" target="_parent"><img src="images/star.png"> StAR</a></a> 
+<p><a href="http://campusservices.olin.edu/" title="Campus Services" target="_parent"><img src="images/campusservices.png"> Campus Services</a></a> 
+<p><a href="http://www.olindining.com" title="Dining Services" target="_parent"><img src="images/diningservices.png"> Dining Services</a></a> 
+<p><a href="http://campusservices.olin.edu/Facilities.html" title="Facilities" target="_parent"><img src="images/facilities.png"> Facilities</a></a> 
+<p><a href="http://www.olin.edu/pgp/" title="PGP" target="_parent"><img src="images/pgp.png"> PGP</a></a> 
+<p><a href="http://it.olin.edu" title="IT" target="_parent"><img src="images/it.png"> IT</a></a> 
+<p><a href="http://studyaway.olin.edu" title="Study Away" target="_parent"><img src="images/studyaway.png"> Study Away</a></a> 
+<p><a href="http://library.olin.edu" title="Library" target="_parent"><img src="images/library.png"> Library</a></a> 
+<p><a href="http://machineshop.olin.edu" title="Machine Shop" target="_parent"><img src="images/machineshop.png"> Machine Shop</a></a> 
+<p><a href="http://projects.robotics.olin.edu/index.php/Main_Page" title="Robotics Lab" target="_parent"><img src="images/robotics.png"> Robotics Lab</a></a> 
+<p><a href="http://olingear.olin.edu/" title="Olin Gear" target="_parent"><img src="images/olingear.png"> Olin Gear</a></a> 
 
 <h2>Schools</h2>
-<p><a href="http://www.olin.edu" title="Olin College" target="_parent">Olin College <img src="images/olin.png"></a> 
-<p><a href="?c=babson" title="[+] Babson" target="_parent">[+] Babson <img class="category" src="images/babson.png"></a> 
-<p><a href="?c=wellesley" title="[+] Wellesley" target="_parent">[+] Wellesley <img class="category" src="images/wellesley.png"></a> 
-<p><a href="?c=brandeis" title="[+] Brandeis" target="_parent">[+] Brandeis <img class="category" src="images/brandeis.png"></a> 
+<p><a href="http://www.olin.edu" title="Olin College" target="_parent"><img src="images/olin.png"> Olin College</a></a> 
+<p><a href="?c=babson" title="[+] Babson" target="_parent"><img class="category" src="images/babson.png"> [+] Babson</a></a> 
+<p><a href="?c=wellesley" title="[+] Wellesley" target="_parent"><img class="category" src="images/wellesley.png"> [+] Wellesley</a></a> 
+<p><a href="?c=brandeis" title="[+] Brandeis" target="_parent"><img class="category" src="images/brandeis.png"> [+] Brandeis</a></a> 
 
 </div> 
 
