@@ -40,8 +40,10 @@ def auth():
 				session['assertion'] = assertion
 				session['email'] = ret['email']
 				return redirect(url_for('index'))
+		return ret['status']
+	return 'fml=' + assertion
 	# Fall through.
-	return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
+	return redirect(url_for('login', callback=LOGIN_CALLBACK))
 
 # Launch
 # ------
