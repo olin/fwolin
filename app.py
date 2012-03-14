@@ -8,34 +8,40 @@ Flask.secret_key = 'andnowigetthehotreptilianking'
 def index():
 	return render_template('index.html')
 
+@app.route('/login/')
+def login():
+	return render_template('login.html')
+
 # Fwol.in Authentication
 # ----------------------
 
-LOGIN_CALLBACK = 'http://fwol.in/login/'
+LOGIN_CALLBACK = 'http://fwol.in/auth/'
 
 @app.before_request
 def fwolin_auth():
-	if request.path != '/login/' and request.path != '/login':
+	if request.path != '/auth/' and request.path != '/auth':
 		browserid = request.cookies.get('browserid')
 		if not session.has_key('assertion') or session['assertion'] != browserid:
 			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
 
-@app.route('/login/', methods=['GET'])
-def login():
-	if not session.has_key('assertion') or session['assertion'] != browserid:
-		assertion = request.cookies.get('browserid')
-		if assertion:
-			r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
-			ret = json.loads(r.text)
-			if ret['status'] == 'okay':
-				domain = re.sub(r'^[^@]+', '', ret['email'])
-				if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
-					session['assertion'] = assertion
-					session['email'] = ret['email']
-					return redirect(url_for('index'))
-					
+@app.route('/auth/', methods=['GET', 'POST'])
+def auth():
+	if session.has_key('assertion') and session['assertion'] == browserid:
+		return redirect(url_for('index'))
+
+	# Check browserid assertion.
+	assertion = request.cookies.get('browserid')
+	if assertion:
+		r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
+		ret = json.loads(r.text)
+		if ret['status'] == 'okay':
+			domain = re.sub(r'^[^@]+', '', ret['email'])
+			if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
+				session['assertion'] = assertion
+				session['email'] = ret['email']
+				return redirect(url_for('index'))
 	# Fall through.
-	return render_template('login.html')
+	return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
 
 # Launch
 # ------
