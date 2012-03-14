@@ -4,6 +4,9 @@ from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
 Flask.secret_key = 'andnowigetthehotreptilianking'
 
+# Routes
+# ------
+
 @app.route('/')
 def index():
 	return render_template('index.html')
@@ -26,11 +29,12 @@ def fwolin_auth():
 
 @app.route('/auth/', methods=['GET', 'POST'])
 def auth():
-	if session.has_key('assertion') and session['assertion'] == browserid:
+	# Check browserid session is valid.
+	assertion = request.cookies.get('browserid')
+	if assertion and session.has_key('assertion') and session['assertion'] == assertion:
 		return redirect(url_for('index'))
 
-	# Check browserid assertion.
-	assertion = request.cookies.get('browserid')
+	# Check new browserid assertion.
 	if assertion:
 		r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
 		ret = json.loads(r.text)
@@ -38,10 +42,9 @@ def auth():
 			domain = re.sub(r'^[^@]+', '', ret['email'])
 			if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 				session['assertion'] = assertion
-				session['email'] = ret['email']
+				#session['email'] = ret['email']
 				return redirect(url_for('index'))
-		return ret['status']
-	return 'fml=' + assertion
+
 	# Fall through.
 	return redirect(url_for('login', callback=LOGIN_CALLBACK))
 
