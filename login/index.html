@@ -1,0 +1,89 @@
+<!DOCTYPE>
+<html>
+<title>fwol.in Login</title>
+<script src="https://browserid.org/include.js" type="text/javascript"></script>
+<style>
+html { background: #aaa; }
+#content { width: 440px; padding: 10px 30px; margin: 70px auto 0; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; 
+font-size: 16px; line-height: 1.5; background: white; box-shadow: 5px 5px 0 #222;}
+p { margin: 20px 0; }
+#back { text-align: center; }
+#signin { text-align: center; }
+#signin button { font-size: 26px; font-weight: bold; padding: 0.4em 2em; }
+</style>
+<body>
+<div id="content">
+
+<p id="signin"><button  onclick="login()">Sign in to fwol.in</button></p>
+<p id="desc">Sign in with BrowserID using your <em>@students.olin.edu</em>, <em>@alumni.olin.edu</em>, or <em>@olin.edu</em> address to access any fwol.in application.</p>
+<p id="back"><a href="http://fwol.in" id="backLink">&larr; Go back?</a></p>
+
+<script>
+function getParameterByName(name)
+{
+  name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+  var regexS = "[\\?&]" + name + "=([^&#]*)";
+  var regex = new RegExp(regexS);
+  var results = regex.exec(window.location.search);
+  if(results == null)
+    return "";
+  else
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var Cookies = {
+  set: function(key, value, _arg) {
+    var days, domain, expires, path, raw, secure, _ref;
+    _ref = _arg != null ? _arg : {}, path = _ref.path, domain = _ref.domain, secure = _ref.secure, raw = _ref.raw, expires = _ref.expires;
+    if (value === null || value === void 0) {
+      expires = -1;
+    }
+    if (typeof expires === 'number') {
+      days = expires;
+      (expires = new Date()).setDate(new Date().getDate() + days);
+    }
+    return document.cookie = [encodeURIComponent(key), "=", raw ? "" + value : encodeURIComponent("" + value), expires != null ? "; expires=" + expires.toUTCString() : void 0, path != null ? "; path=" + path : void 0, domain != null ? "; domain=" + domain : void 0, secure != null ? "; secure" : void 0].join('');
+  },
+  get: function(key, _arg) {
+    var decode, pair, raw, _i, _len, _ref;
+    raw = (_arg != null ? _arg : {}).raw;
+    decode = !raw ? decodeURIComponent : function(s) {
+      return s;
+    };
+    _ref = document.cookie.split("; ");
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      pair = _ref[_i];
+    	console.log(pair.split("=")[0])
+      if ((pair = pair.split("=")) && decode(pair[0]) === key) {
+        return decode(pair[1] || '');
+      }
+    }
+    return null;
+  }
+};
+
+var callback="http://fwol.in/"
+document.getElementById('backLink').href = getParameterByName('callback') || "http://fwol.in/"
+
+var login;
+if (Cookies.get('browserid')) {
+	document.getElementById('signin').firstChild.innerHTML = 'Log out from fwol.in'
+	var desc = document.getElementById('desc'); desc.parentNode.removeChild(desc)
+	login = function () {
+		Cookies.set('browserid', null, {domain: '.fwol.in'})
+		window.location.reload()
+	}
+} else {
+	login = function () {
+		navigator.id.get(function(assertion) {
+		    if (assertion) {
+		    	Cookies.set('browserid', assertion, {domain: '.fwol.in', expires: 60})
+		    	window.location.href = callback
+		    }
+		});
+	}
+}
+</script>
+</div>
+</body>
+</html>
