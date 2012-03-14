@@ -18,20 +18,22 @@ def login():
 # Fwol.in Authentication
 # ----------------------
 
+import hashlib
+
 LOGIN_CALLBACK = 'http://fwol.in/auth/'
 
 @app.before_request
 def fwolin_auth():
 	if request.path not in ['/auth/', '/auth', '/login/', '/login']:
-		browserid = request.cookies.get('browserid')
-		if not session.has_key('assertion') or session['assertion'] != browserid:
+		assertion = request.cookies.get('browserid')
+		if not session.has_key('assertion') or session['assertion'] != hashlib.sha1(assertion).hexdigest():
 			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
 
 @app.route('/auth/', methods=['GET', 'POST'])
 def auth():
 	# Check browserid session is valid.
 	assertion = request.cookies.get('browserid')
-	if assertion and session.has_key('assertion') and session['assertion'] == assertion:
+	if assertion and session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest():
 		return redirect(url_for('index'))
 
 	# Check new browserid assertion.
@@ -41,8 +43,8 @@ def auth():
 		if ret['status'] == 'okay':
 			domain = re.sub(r'^[^@]+', '', ret['email'])
 			if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
-				session['assertion'] = assertion
-				#session['email'] = ret['email']
+				session['assertion'] = hashlib.sha1(assertion).hexdigest()
+				session['email'] = ret['email']
 				return redirect(url_for('index'))
 
 	# Fall through.
