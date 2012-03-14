@@ -26,7 +26,7 @@ LOGIN_CALLBACK = 'http://fwol.in/auth/'
 def fwolin_auth():
 	if request.path not in ['/auth/', '/auth', '/login/', '/login']:
 		assertion = request.cookies.get('browserid')
-		if not session.has_key('assertion') or session['assertion'] != hashlib.sha1(assertion).hexdigest():
+		if not (assertion and session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest()):
 			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
 
 @app.route('/auth/', methods=['GET', 'POST'])
