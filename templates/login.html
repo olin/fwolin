@@ -72,14 +72,14 @@ if (Cookies.get('browserid')) {
 	document.getElementById('signin').firstChild.innerHTML = 'Log out from fwol.in'
 	document.getElementById('desc').innerHTML = 'You are currently logged into fwol.in.'
 	login = function () {
-		Cookies.set('browserid', null, {domain: '.fwol.in'})
+		Cookies.set('browserid', null, {domain: '.fwol.in', path: '/'})
 		window.location.reload()
 	}
 } else {
 	login = function () {
 		navigator.id.get(function(assertion) {
 		    if (assertion) {
-		    	Cookies.set('browserid', assertion, {domain: '.fwol.in', expires: 60})
+		    	Cookies.set('browserid', assertion, {domain: '.fwol.in', expires: 60, path: '/'})
 		    	window.location.href = callback
 		    }
 		});
