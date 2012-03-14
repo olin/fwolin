@@ -19,7 +19,7 @@ LOGIN_CALLBACK = 'http://fwol.in/auth/'
 
 @app.before_request
 def fwolin_auth():
-	if request.path != '/auth/' and request.path != '/auth':
+	if request.path not in ['/auth/', '/auth', '/login/', '/login']
 		browserid = request.cookies.get('browserid')
 		if not session.has_key('assertion') or session['assertion'] != browserid:
 			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
