@@ -63,6 +63,8 @@ var Cookies = {
 };
 
 var callback="http://fwol.in/"
+if (getParameterByName('callback')) callback = getParameterByName('callback')
+document.getElementById('backLink').innerHTML = '&larr; Go back to ' + callback.replace(/</g, '&lt;').replace(/>/g, '&gt;')
 document.getElementById('backLink').href = getParameterByName('callback') || "http://fwol.in/"
 
 var login;
