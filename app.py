@@ -32,8 +32,6 @@ def login():
 				session['assertion'] = assertion
 				session['email'] = ret['email']
 				return redirect(url_for('index'))
-		else:
-			request.set_cookie('browserid', None)
 
 	return render_template('login.html')
 
