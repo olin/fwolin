@@ -21,12 +21,11 @@ def login():
 
 import hashlib
 
-LOGIN_CALLBACK = 'http://fwol.in/auth/'
-
-# Returns email or None.
+# Returns whether we can establish a session or not.
 def consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
 	ret = json.loads(r.text)
+	print('GOT STATUS: ' + ret['status'])
 	if ret['status'] == 'okay':
 		domain = re.sub(r'^[^@]+', '', ret['email'])
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
@@ -37,33 +36,21 @@ def consume_assertion(assertion):
 
 @app.before_request
 def fwolin_auth():
-	if request.path not in ['/auth/', '/auth', '/login/', '/login']:
-		assertion = request.cookies.get('browserid')
-		if not assertion:
-			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
-		elif session.has_key('assertion'):
-			if session['assertion'] == hashlib.sha1(assertion).hexdigest()):
-				pprint(session)
-			else:
-				if check_valid_assertion(assertion):
-					return redirect(url_for('index'))
-		# Fall-through.
-		return redirect(url_for('auth'))
+	if request.path in ['/login/', '/login']:
+		return
 
-@app.route('/auth/', methods=['GET', 'POST'])
-def auth():
-	# Check that any current browserid session is valid.
+	# Check browser assertion.
 	assertion = request.cookies.get('browserid')
-	if assertion and session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest():
-		return redirect(url_for('index'))
-
-	# Check the new browserid assertion.
 	if assertion:
-		if check_valid_assertion(assertion):
+		print('### BROWSERID ASSERTION EXISTS ' + str(session.has_key('assertion')))
+		if session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest():
+			print('### ASSERTION SUCCESS')
+			return
+		if consume_assertion(assertion):
+			print('### ASSERTION CONSUMED')
 			return redirect(url_for('index'))
-
-	# Fall through to login screen.
-	return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
+	# Fallthrough.
+	return redirect('http://fwol.in/login/?callback=' + request.path)
 
 # Launch
 # ------
