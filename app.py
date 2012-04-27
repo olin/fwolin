@@ -25,13 +25,16 @@ import hashlib
 def consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
 	ret = json.loads(r.text)
-	print('GOT STATUS: ' + ret['status'])
 	if ret['status'] == 'okay':
+		print('CONSUMPTION STATUS OKAY')
 		domain = re.sub(r'^[^@]+', '', ret['email'])
+		print('CONSUMPTION DOMAIN' + domain)
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
+			print('CONSUMPTION STATUS GOOOO')
 			session['assertion'] = hashlib.sha1(assertion).hexdigest()
 			session['email'] = email
 			return True
+	print('CONSUMPTION FAILED')
 	return False
 
 @app.before_request
@@ -41,6 +44,7 @@ def fwolin_auth():
 
 	# Check browser assertion.
 	assertion = request.cookies.get('browserid')
+	print('ASSERTION: ' + request.path + ' AND THEN THIS ' + str(assertion))
 	if assertion:
 		print('### BROWSERID ASSERTION EXISTS ' + str(session.has_key('assertion')))
 		if session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest():
@@ -49,6 +53,8 @@ def fwolin_auth():
 		if consume_assertion(assertion):
 			print('### ASSERTION CONSUMED')
 			return redirect(url_for('index'))
+		# Cookie is broke.
+		print('### COOKIE BROKEN, CLEAR')
 	# Fallthrough.
 	return redirect('http://fwol.in/login/?callback=' + request.path)
 
