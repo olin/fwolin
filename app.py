@@ -1,5 +1,4 @@
-import os, random, string, requests, json, re
-from pprint import pprint
+import os, random, string, requests, json, re, time
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
@@ -29,14 +28,11 @@ def consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
 	ret = json.loads(r.text)
 	if ret['status'] == 'okay':
-		print('CONSUMPTION STATUS OKAY')
 		domain = re.sub(r'^[^@]+', '', ret['email'])
-		print('CONSUMPTION DOMAIN' + domain)
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 			session['assertion'] = hashlib.sha1(assertion).hexdigest()
-			session['email'] = email
+			session['email'] = ret['email']
 			return True
-	print('CONSUMPTION FAILED')
 	return False
 
 @app.before_request
@@ -44,27 +40,20 @@ def fwolin_auth():
 	if request.path in ['/login/', '/login']:
 		return
 
-	print('###Assertion for ' + request.path + ' is ' + request.cookies.get('browserid'))
-	assertion = 'sadfadfsadfs'
-	session['assertion'] = hashlib.sha1(assertion).hexdigest()
-	return
-
+	# Fallthrough.
+	response = redirect('http://fwol.in/login/?callback=' + request.path)
 	# Check browser assertion.
 	assertion = request.cookies.get('browserid')
-	print('ASSERTION: ' + request.path + ' AND THEN THIS ' + str(assertion))
 	if assertion:
-		print('### BROWSERID ASSERTION EXISTS ' + str('assertion' in session))
 		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
-			print('### ASSERTION SUCCESS')
+			print('ASSERTION IS VALID')
 			return
 		if consume_assertion(assertion):
-			print('### ASSERTION CONSUMED')
+			print('NEW ASSERTION IS VALID')
 			return
-			#return redirect(url_for('index'))
 		# Cookie is broke.
-		print('### COOKIE BROKEN, CLEAR')
-	# Fallthrough.
-	return redirect('http://fwol.in/login/?callback=' + request.path)
+		response.set_cookie('browserid', value='', expires=time.time()-10000)
+	return response
 
 # Launch
 # ------
