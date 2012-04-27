@@ -45,6 +45,8 @@ def fwolin_auth():
 		return
 
 	print('###Assertion for ' + request.path + ' is ' + request.cookies.get('browserid'))
+	assertion = 'sadfadfsadfs'
+	session['assertion'] = hashlib.sha1(assertion).hexdigest()
 	return
 
 	# Check browser assertion.
