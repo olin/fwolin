@@ -36,7 +36,6 @@ def consume_assertion(assertion):
 			print('CONSUMPTION STATUS GOOOO')
 			session['assertion'] = hashlib.sha1(assertion).hexdigest()
 			session['email'] = email
-			print(session['email'])
 			return True
 	print('CONSUMPTION FAILED')
 	return False
