@@ -46,13 +46,14 @@ def fwolin_auth():
 	assertion = request.cookies.get('browserid')
 	print('ASSERTION: ' + request.path + ' AND THEN THIS ' + str(assertion))
 	if assertion:
-		print('### BROWSERID ASSERTION EXISTS ' + str(session.has_key('assertion')))
-		if session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest():
+		print('### BROWSERID ASSERTION EXISTS ' + str('assertion' in session))
+		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
 			print('### ASSERTION SUCCESS')
 			return
 		if consume_assertion(assertion):
 			print('### ASSERTION CONSUMED')
-			return redirect(url_for('index'))
+			return
+			#return redirect(url_for('index'))
 		# Cookie is broke.
 		print('### COOKIE BROKEN, CLEAR')
 	# Fallthrough.
