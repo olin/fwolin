@@ -32,6 +32,7 @@ def consume_assertion(assertion):
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 			session['assertion'] = hashlib.sha1(assertion).hexdigest()
 			session['email'] = ret['email']
+			session.permanent = True
 			return True
 	return False
 
