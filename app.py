@@ -45,15 +45,18 @@ def fwolin_auth():
 	response = redirect('http://fwol.in/login/?callback=' + request.path)
 	# Check browser assertion.
 	assertion = request.cookies.get('browserid')
+
+	print('###ASSERTION: ' + assertion)
 	if assertion:
 		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
-			print('ASSERTION IS VALID')
+			print('###ASSERTION VALID')
 			return
 		if consume_assertion(assertion):
-			print('NEW ASSERTION IS VALID')
+			print('###ASSERTION CONSUMED')
 			return
 		# Cookie is broke.
-		response.set_cookie('browserid', value='', expires=time.time()-10000)
+		print('###ASSERTION DEAD')
+		response.set_cookie('browserid', value='', domain='.fwol.in', expires=time.time()-10000)
 	return response
 
 # Launch
