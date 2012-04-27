@@ -33,7 +33,6 @@ def consume_assertion(assertion):
 		domain = re.sub(r'^[^@]+', '', ret['email'])
 		print('CONSUMPTION DOMAIN' + domain)
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
-			print('CONSUMPTION STATUS GOOOO')
 			session['assertion'] = hashlib.sha1(assertion).hexdigest()
 			session['email'] = email
 			return True
@@ -44,6 +43,9 @@ def consume_assertion(assertion):
 def fwolin_auth():
 	if request.path in ['/login/', '/login']:
 		return
+
+	print('###Assertion for ' + request.path + ' is ' + request.cookies.get('browserid'))
+	return
 
 	# Check browser assertion.
 	assertion = request.cookies.get('browserid')
