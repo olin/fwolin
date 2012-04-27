@@ -1,4 +1,5 @@
 import os, random, string, requests, json, re
+from pprint import pprint
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
@@ -29,6 +30,7 @@ def fwolin_auth():
 		if not assertion:
 			return redirect('http://fwol.in/login/?callback=' + LOGIN_CALLBACK)
 		elif not (session.has_key('assertion') and session['assertion'] == hashlib.sha1(assertion).hexdigest()):
+			pprint(session)
 			return redirect(url_for('auth'))
 
 @app.route('/auth/', methods=['GET', 'POST'])
