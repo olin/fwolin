@@ -3,6 +3,9 @@ from pprint import pprint
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
+app.config.update(
+	SERVER_NAME='fwol.in'
+)
 Flask.secret_key = 'andnowigetthehotreptilianking'
 
 # Routes
