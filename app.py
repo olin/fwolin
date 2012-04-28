@@ -59,6 +59,7 @@ def fwolin_auth():
 		# Cookie is broke.
 		print('###ASSERTION DEAD')
 		response.set_cookie('browserid', value='', domain='.fwol.in', expires=time.time()-10000)
+	print '!!!!!!!! BADIDEA ' + request.path
 	return response
 
 # Launch
