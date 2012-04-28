@@ -42,8 +42,10 @@ def fwolin_auth():
 		return
 
 	# Fallthrough.
+	print '!!!!!!!! REQUEST PATH'
 	response = redirect('http://fwol.in/login/?callback=' + request.path)
 	# Check browser assertion.
+	print '!!!!!!!! AND A COOKIE'
 	assertion = request.cookies.get('browserid')
 
 	print('###ASSERTION: ' + assertion)
