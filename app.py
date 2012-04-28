@@ -42,14 +42,10 @@ def fwolin_auth():
 		return
 
 	# Fallthrough.
-	print '!!!!!!!! REQUEST PATH'
 	response = redirect('http://fwol.in/login/?callback=' + request.path)
 	# Check browser assertion.
-	print '!!!!!!!! AND A COOKIE'
 	assertion = request.cookies.get('browserid')
-	print '!!!!!!!! SUP ASSERTION' + type(assertion)
 
-	print('###ASSERTION: ' + assertion)
 	if assertion:
 		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
 			print('###ASSERTION VALID')
