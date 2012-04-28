@@ -47,7 +47,7 @@ def fwolin_auth():
 	# Check browser assertion.
 	print '!!!!!!!! AND A COOKIE'
 	assertion = request.cookies.get('browserid')
-	print '!!!!!!!! SUP ASSERTION'
+	print '!!!!!!!! SUP ASSERTION' + type(assertion)
 
 	print('###ASSERTION: ' + assertion)
 	if assertion:
