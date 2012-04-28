@@ -23,6 +23,10 @@ def login():
 
 import hashlib
 
+# First-time logged in action.
+def logged_in():
+	pass
+
 # Returns whether we can establish a session or not.
 def consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
@@ -47,9 +51,8 @@ def fwolin_auth():
 	assertion = request.cookies.get('browserid')
 
 	if assertion:
-		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
-			return
-		if consume_assertion(assertion):
+		if session.get('assertion', '') == hashlib.sha1(assertion).hexdigest() or consume_assertion(assertion):
+			logged_in()
 			return
 		# Cookie is broke.
 		response.set_cookie('browserid', value='', domain='.fwol.in', expires=time.time()-10000)
