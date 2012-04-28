@@ -1,4 +1,4 @@
-import os, random, string, requests, json, re, time
+import os, random, string, requests, json, re, time, fwolin
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
@@ -21,42 +21,7 @@ def login():
 # Fwol.in Authentication
 # ----------------------
 
-import hashlib
-
-# First-time logged in action.
-def logged_in():
-	pass
-
-# Returns whether we can establish a session or not.
-def consume_assertion(assertion):
-	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": "fwol.in"})
-	ret = json.loads(r.text)
-	if ret['status'] == 'okay':
-		domain = re.sub(r'^[^@]+', '', ret['email'])
-		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
-			session['assertion'] = hashlib.sha1(assertion).hexdigest()
-			session['email'] = ret['email']
-			session.permanent = True
-			return True
-	return False
-
-@app.before_request
-def fwolin_auth():
-	if request.path in ['/login/', '/login']:
-		return
-
-	# Fallthrough.
-	response = redirect('http://fwol.in/login/?callback=' + request.path)
-	# Check browser assertion.
-	assertion = request.cookies.get('browserid')
-
-	if assertion:
-		if session.get('assertion', '') == hashlib.sha1(assertion).hexdigest() or consume_assertion(assertion):
-			logged_in()
-			return
-		# Cookie is broke.
-		response.set_cookie('browserid', value='', domain='.fwol.in', expires=time.time()-10000)
-	return response
+fwolin.enable_auth(app, None, ['/login/', '/login'])
 
 # Launch
 # ------
@@ -64,4 +29,5 @@ def fwolin_auth():
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
+    app.debug = True
     app.run(host='0.0.0.0', port=port)
