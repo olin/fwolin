@@ -2,9 +2,6 @@ import os, random, string, requests, json, re, time, fwolin
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
-app.config.update(
-	SERVER_NAME='fwol.in'
-)
 Flask.secret_key = 'andnowigetthehotreptilianking'
 
 # Routes
@@ -12,7 +9,7 @@ Flask.secret_key = 'andnowigetthehotreptilianking'
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+	return render_template('index.html', email=session['email'])
 
 @app.route('/login/')
 def login():
@@ -30,4 +27,6 @@ if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
     app.debug = True
+    if 'PORT' in os.environ:
+    	app.config.update(SERVER_NAME='fwol.in')
     app.run(host='0.0.0.0', port=port)
