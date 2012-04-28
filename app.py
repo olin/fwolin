@@ -48,15 +48,11 @@ def fwolin_auth():
 
 	if assertion:
 		if 'assertion' in session and session['assertion'] == hashlib.sha1(assertion).hexdigest():
-			print('###ASSERTION VALID')
 			return
 		if consume_assertion(assertion):
-			print('###ASSERTION CONSUMED')
 			return
 		# Cookie is broke.
-		print('###ASSERTION DEAD')
 		response.set_cookie('browserid', value='', domain='.fwol.in', expires=time.time()-10000)
-	print '!!!!!!!! BADIDEA ' + request.path
 	return response
 
 # Launch
