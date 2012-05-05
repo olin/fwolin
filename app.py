@@ -2,7 +2,7 @@ import os, random, string, requests, json, re, time, fwolin
 
 from flask import Flask, session, request, redirect, url_for, render_template
 app = Flask(__name__, static_url_path='')
-Flask.secret_key = 'andnowigetthehotreptilianking'
+Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 
 # Routes
 # ------
