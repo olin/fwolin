@@ -18,6 +18,7 @@ def login():
 # Fwol.in Authentication
 # ----------------------
 
+# All pages are accessible.
 fwolin.enable_auth(app, None, ['*'])
 
 # Launch
