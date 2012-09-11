@@ -18,7 +18,7 @@ def login():
 # Fwol.in Authentication
 # ----------------------
 
-fwolin.enable_auth(app, None, ['/login/', '/login'])
+#fwolin.enable_auth(app, None, ['/login/', '/login'])
 
 # Launch
 # ------
