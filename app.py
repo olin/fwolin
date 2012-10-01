@@ -16,7 +16,7 @@ def login():
 	return render_template('login.html')
 
 @app.route('/calendar/')
-def login():
+def calendar():
 	return render_template('calendar.html')
 
 # Fwol.in Authentication
