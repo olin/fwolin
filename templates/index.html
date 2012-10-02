@@ -82,40 +82,21 @@ $(function () {
 <style>
 
 body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; background: #ddd; color: #444;}
-#content { padding-left: 210px; padding-right: 30px;}
-
-h2 { clear: both; margin: 0; padding: 15px 0 5px; font-size: 1.3em; line-height: inherit; }
-#header { border-bottom: 1px solid #999; margin: 0 0 15px; padding: 15px 0 15px 200px; background: #eee; overflow: auto; }
-#header h1 { font-size: 30px; float: left; margin: 0; padding: 0; text-shadow: #fff 1px 1px 0; }
-#header div { padding: 5px 0 0 45px; vertical-align: baseline; }
-#quick-link { padding: 3px 0 0 10px; color: #444; font-style: italic }
-#quick-link-name { font-weight: bold; }
-
-#app-list, #app-list p { display: block; margin: 0; padding: 0; }
-#app-list { overflow: auto; }
-#app-list p { float: left; width: 144px; height: 150px; margin: 1px; text-align: center; }
-#app-list p a { width: 132px; height: 134px; text-decoration: none; display: block;
-	background: #eee; border: 2px solid #eee; padding: 6px 4px; border: 1px solid #888; cursor: pointer; box-shadow: #aaa 2px 2px 2px;
-	color: black; font-size: 14px;}
-#app-list p a:hover, #app-list p.first a { background: #fff; border: 2px solid #fa0; padding: 5px 3px;}
-#app-list p img { display: block; width: 90px; height: 90px; margin: 5px auto 10px; }
-#footer { font-size: 0.7em; text-align: center; padding: 2em 0 0.5em; line-height: 1.3; }
+#content-wrapper {  height: 100%; padding-left: 180px; }
+#content { display: block; border: none; width: 100%; height: 100%; }
 
 #nav, #nav li { display: block; margin: 0; padding: 0; }
 #nav li { background: #bbb; box-shadow: #222 0 1px 1px; margin: 10px 0; } 
 #nav a { display: block; padding: 4px 8px; line-height: 24px; }
 #nav img { width: 24px; margin-right: 10px; }
 
-</style>
-</head> 
-<body> 
-
-<!-- START FWOLIN HEADER -->
-<style>
 #fwolin-header { width: 149px; padding: 15px 15px; position: fixed; top: 0; left: 0; border-right: 1px solid black;
 	font-family: Helvetica, Helvetica Neue, Arial, sans-serif; font-size: 14px; background: #444; color: white; height: 100%; }
 #fwolin-header h1 { text-shadow: #224 1px 1px 0; }
 </style>
+</head>
+
+<body>
 <div id="fwolin-header">
 <h1><a href="http://fwol.in/" class="fwolin-brand">fwol.in</a></h1>
 <p>An online portal for the Olin community.</p>
@@ -140,97 +121,9 @@ h2 { clear: both; margin: 0; padding: 15px 0 5px; font-size: 1.3em; line-height:
 -->
 </ul>
 </div>
-<!-- END FWOLIN HEADER -->
 
-<form id="header" class="form-search row">
-	<h1>Launchpad</h1>
-	<div class="input-prepend">
-    <span class="add-on">
-        <i class="icon-search"></i>
-    </span>
-	<input type="search" class="span3" placeholder="Filter items..." name="search" id="filter-input">
-</div>
-	<span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span>
-</form> 
-
-<div id="content">
- 
-<div id="app-list"> 
-
-<h2>Organizations</h2>
-<p><a href="http://core.olin.edu" title="CORe"><img class="category" src="images/corelogo.png">CORe</a></p> 
-<p><a href="http://honorboard.olin.edu" title="Honor Board"><img src="images/honorboard.png"> Honor Board</a></p> 
-<p><a href="http://serv.olin.edu" title="SERV"><img src="images/serv.png"> SERV</a></p> 
-<p><a href="http://sao.olin.edu" title="SAO"><img src="http://rbsd.k12.ar.us/Templates/images/clubs%20and%20activities.gif"> SAO</a></p> 
-
-<h2>Resources</h2>
-<p><a href="https://my.olin.edu/ICS/Campus_Wide_Calendars.jnz" title="Academic Calendar"><img src="images/academiccalendar.png"> Academic Calendar</a></p> 
-<p><a href="http://scheduler.olin.edu:8080/astraweb/index.jsp?id1=sched_sta&amp;id2=0linsched" title="AdAstra"><img src="images/adastra.png"> AdAstra</a></p> 
-<p><a href="http://www.laundryview.com" title="LaundryView"><img src="images/laundry.png"> LaundryView</a></p> 
-<p><a href="http://lists.olin.edu" title="Mailman"><img src="images/mailman.png"> Mailing Lists</a></p> 
-<p><a href="https://acl.olin.edu/msdnaa/" title="MSDN Software"><img src="images/windows.jpg"> MSDN Software</a></p>
-<p><a href="http://www.flickr.com/photos/olin/" title="Olin Photos"><img src="images/flickr.png"> Olin Photos</a></p> 
-<p><a href="http://feeds.olin.edu" title="Olin RSS Feeds"><img src="images/feeds.png"> Olin RSS Feeds</a></p> 
-<p><a href="http://onecard.olin.edu" title="One Card"><img src="images/onecard.png"> One Card</a></p> 
-<p><a href="http://www.babson.edu/offices-services/public-safety/parking/Pages/parking-violation-appeal.aspx" title="Parking Ticket Appeal Form"><img src="images/parkingticket.png"> Parking Ticket Appeal Form</a></p> 
-<p><a href="http://www.planetolin.com" title="Planet Olin"><img src="images/planetolin.png"> Planet Olin</a></p> 
-<p><a href="https://webmail.olin.edu/" title="Webmail"><img src="images/webmail.png"> Webmail</a></p> 
-<p><a href="http://workorders.olin.edu" title="Workorder"><img src="images/workorder.png"> Workorder</a></p> 
-<p><a href="http://ahs.olin.edu/ahswiki/WritingTutorPage" title="Writing Tutors"><img src="images/writingtutors.png"> Writing Tutors</a></p> 
-<p><a href="https://twitter.com/olindiningmenu" title="@olindiningmenu"><img src="http://avatars.io/twitter/olindiningmenu"> @olindiningmenu</a></p> 
-<p><a href="https://twitter.com/trimdiningmenu" title="@trimdiningmenu"><img src="http://avatars.io/twitter/trimdiningmenu"> @trimdiningmenu</a></p> 
-
-<h2>Portals</h2>
-<p><a href="http://courses.olin.edu" title="Blackboard"><img src="images/blackboard.png"> Blackboard</a></p>
-<p><a href="https://sis.olin.edu" title="SIS"><img src="images/sis.png"> SIS</a></p> 
-<p><a href="http://my.olin.edu" title="my.olin.edu"><img src="images/my.png"> my.olin.edu</a></p> 
-<p><a href="https://olin-csm.symplicity.com/students/" title="NaceLink"><img src="images/nacelink.png"> NaceLink</a></p> 
-
-<h2>Clubs</h2>
-<p><a href="http://minibaja.olin.edu" title="Mini Baja"><img src="images/baja.png"> Mini Baja</a></p> 
-<p><a href="http://fwop.olin.edu" title="FWOP"><img src="images/fwop.png"> FWOP</a></p> 
-<p><a href="http://open.olin.edu/" title="Open"><img src="images/open.png"> Open</a></p> 
-<p><a href="http://serv.olin.edu/habitat/" title="Habitat for Humanity"><img src="images/habitat.png"> Habitat for Humanity</a></p> 
-<p><a href="http://hpv.olin.edu/Home.html" title="Human Powered Vehicles"><img src="images/hpv.jpg"> Human Powered Vehicles</a></p> 
-<p><a href="http://ieee.olin.edu" title="IEEE"><img src="images/ieee.png"> IEEE</a></p> 
-<p><a href="http://swe.olin.edu/" title="SWE"><img src="images/swe.png"> SWE</a></p> 
-<p><a href="http://foundry.olin.edu" title="The Foundry"><img src="images/foundry.png"> The Foundry</a></p>
-
-<h2>Departments</h2>
-<p><a href="http://projects.olin.edu/ahs/index.html" title="AHS"><img src="images/ahs.png"> AHS</a></p> 
-<p><a href="http://star.olin.edu" title="StAR"><img src="images/star.png"> StAR</a></p> 
-<p><a href="http://www.olindining.com" title="Dining Services"><img src="images/diningservices.png"> Dining Services</a></p> 
-<p><a href="http://campusservices.olin.edu/Facilities.html" title="Facilities"><img src="images/facilities.png"> Facilities</a></p> 
-<p><a href="http://www.olin.edu/pgp/" title="PGP"><img src="images/pgp.png"> PGP</a></p> 
-<p><a href="http://it.olin.edu" title="IT"><img src="images/it.png"> IT</a></p> 
-<p><a href="http://studyaway.olin.edu" title="Study Away"><img src="images/studyaway.png"> Study Away</a></p> 
-<p><a href="http://library.olin.edu" title="Library"><img src="images/library.png"> Library</a></p> 
-<p><a href="http://machineshop.olin.edu" title="Machine Shop"><img src="images/machineshop.png"> Machine Shop</a></p> 
-<p><a href="http://projects.robotics.olin.edu/index.php/Main_Page" title="Robotics Lab"><img src="images/robotics.png"> Robotics Lab</a></p> 
-<p><a href="http://olingear.olin.edu/" title="Olin Gear"><img src="images/olingear.png"> Olin Gear</a></p> 
-
-<h2>Schools</h2>
-<p><a href="http://www.olin.edu" title="Olin College"><img src="images/olin.png"> Olin College</a></p> 
-<p><a href="http://babson.edu/" title="Babson"><img src="images/babson.png">Babson</a></p> 
-<p><a href="http://wellesley.edu/" title="Wellesley"><img src="images/wellesley.png">Wellesley</a></p> 
-<p><a href="http://brandeis.edu/" title="Brandeis"><img src="images/brandeis.png">Brandeis</a></p> 
-
-<h2>Archived</h2>
-<p><a href="http://yearbook.olin.edu" title="Yearbook"><img src="images/yearbook.png"> Yearbook</a></p>
-<p><a href="http://awesome.olin.edu" title="OSA"><img src="images/osa.png"> OSA</a></p> 
-<!--
-<p><a href="http://10.64.10.12/view/index.shtml" title="Great Lawn Webcam"><img src="images/camera.jpg"> Great Lawn Webcam</a>
-<p><a href="http://arb.olin.edu/" title="ARB"><img src="images/arb.png"> ARB</a></p> 
-<p><a href="http://campusservices.olin.edu/" title="Campus Services"><img src="images/campusservices.png"> Campus Services</a></p> 
--->
-</div> 
-
-<p id="footer">
-Launchpad 3.0 maintained by <a href="http://ohack.us/">OHACK</a>.<br>
-Launchpad 2.0 by <a href="http://nomagicsmoke.com/" target="_blank" title="Jeffrey Stanton's Website [new window]">Jeffrey Stanton (2010)</a>.<br>
-Original version by <a href="http://www.grgmrr.com/" title="Greg Marra's Website [new window]" target="_blank">Greg Marra (2010)</a>.
-</p>
-
+<div id="content-wrapper">
+<iframe src="http://ohack-launchpad.herokuapp.com/" id="content"></iframe>
 </div>
  
 </body> 
