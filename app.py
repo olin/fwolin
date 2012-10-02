@@ -19,7 +19,9 @@ def login():
 
 @app.route('/calendar/')
 def calendar():
-	return render_template('calendar.html')
+	return render_template('calendar.html',
+        email=session.get('email', None),
+        name=(session.get('email', '') or '').split('@')[0])
 
 
 # Fwol.in Authentication
