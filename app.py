@@ -19,7 +19,12 @@ def login():
 
 @app.route('/calendar/')
 def calendar():
-	return render_template('calendar.html')
+	return render_template('index-calendar.html')
+
+@app.route('/calendar/panel/')
+def calendar_panel():
+    return render_template('calendar.html')
+
 
 # Fwol.in Authentication
 # ----------------------
