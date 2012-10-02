@@ -36,7 +36,8 @@ body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; back
 {% if email %}
 <div class="fwolin-status">Logged in as {{ name }}. <a href="http://fwol.in/login/?callback=http://fwol.in/">Logout?</a></div>
 {% else %}
-<div class="fwolin-status">Not logged in. <a href="http://fwol.in/login/?callback=http://fwol.in/">Login?</a></div>
+<div class="fwolin-status">Not logged in.<br>
+	<a href="http://fwol.in/login/?callback=http://fwol.in/"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a></div>
 {% endif %}
 
 <div class="well">
