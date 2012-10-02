@@ -11,7 +11,7 @@ Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 def index():
 	return render_template('index.html',
 		email=session.get('email', None),
-		name=session.get('email', '').split('@')[0])
+		name=(session.get('email', '') or '').split('@')[0])
 
 @app.route('/login/')
 def login():
