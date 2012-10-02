@@ -1,71 +1,79 @@
 <!DOCTYPE html>
 
-<html> 
+<html lang="en"> 
 <head>
 <title>Fwol.in Launchpad</title> 
+
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
-<link rel="shortcut icon" href="css/rocket.png"> 
+
+<link rel="shortcut icon" href="/css/rocket.png"> 
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-responsive.css">
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
 
 <script type="text/javascript">
 
 $(function () {
-	var ANIM_SPEED = 'fast'
+	var ANIM_SPEED = 'fast';
 
 	// Cache links list.
-	var links = {}
+	var links = {};
 	$('#app-list p').each(function () {
-		links[$(this).text().toLowerCase()] = this
-	})
+		links[$(this).text().toLowerCase()] = this;
+	});
 
 	// Return the first shortcut link.
 	function getFirstLink() {
-		return $('#app-list p:visible:first')[0]
+		return $('#app-list p:visible:first')[0];
 	}
 
 	// Filter lists based on a keywords array.
 	function filterList(keywords) {
 		// When filtering, hide headers.
-		keywords.length ? $('#launchpad h2').hide(ANIM_SPEED) : $('#launchpad h2').show(ANIM_SPEED)
+		keywords.length ? $('#content h2').hide(ANIM_SPEED) : $('#content h2').show(ANIM_SPEED);
 
 		// If there are no keywords, show all links.
-		if (!keywords.length)
+		if (!keywords.length) {
 			$.each(links, function (title, link) {
 				$(link).show()
-			})
-		else
+			});
+		} else {
 			$.each(links, function (title, link) {
 				$(link).removeClass('first')
 				$.each(keywords, function (_, keyword) {
-					if (!title.match(keyword))
+					if (!title.match(keyword)) {
 						$(link).hide()
-					else
+					} else {
 						$(link).show()
+					}
 				})
-			})
+			});
+		}
 
 		// Include shortcut for first link.
-		var first = getFirstLink()
-		$(first).addClass('first')
-		first ? $('#quick-link').show(ANIM_SPEED) : $('#quick-link').hide(ANIM_SPEED)
-		$('#quick-link-name').text($(first).text())
+		var first = getFirstLink();
+		$(first).addClass('first');
+		first ? $('#quick-link').show(ANIM_SPEED) : $('#quick-link').hide(ANIM_SPEED);
+		$('#quick-link-name').text($(first).text());
 	}
 
 	// Keyup filter.
 	$('#filter-input').keyup(function () {
 		// Filter keywords
-		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim)
-		filterList(keywords)
-	}).focus()
+		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim);
+		filterList(keywords);
+	}).focus();
 	// Filter initially so we update shortcut link.
-	filterList([])
+	filterList([]);
 
 	// First link shortcut.
-	$('#filter-form').submit(function () {
+	$('#header').submit(function () {
 		var first = getFirstLink()
-		if (first)
+		if (first) {
 			window.location = $(first).find('a').attr('href')
-		return false
+		}
+		return false;
 	})
 })
 
@@ -74,33 +82,29 @@ $(function () {
 <style>
 
 body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; background: #ddd; color: #444;}
+#content { padding-left: 210px; padding-right: 30px;}
 
-@media (min-width: 890px) {
-#launchpad { width: 890px; margin: 0 auto; }
-}
-
-h1 { margin: 0; padding: 0.5em 0.5em 0 }
-h2 { clear: both; margin: 0; padding: 10px 0 0.25em; font-size: 1.3em }
-h1, h2, form { text-shadow: #aaa 1px 1px 1px; }
-
-h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
-
-#filter-form { font-size: 1.2em; margin: 1em; }
-#filter-form input { border-width: 1px; font-size: 1.0em; padding: 0.2em; }
-#quick-link { font-size: 0.8em; color: #04a; font-style: italic }
+h2 { clear: both; margin: 0; padding: 15px 0 5px; font-size: 1.3em; line-height: inherit; }
+#header { border-bottom: 1px solid #999; margin: 0 0 15px; padding: 15px 0 15px 200px; background: #eee; overflow: auto; }
+#header h1 { font-size: 30px; float: left; margin: 0; padding: 0; text-shadow: #fff 1px 1px 0; }
+#header div { padding: 5px 0 0 45px; vertical-align: baseline; }
+#quick-link { padding: 3px 0 0 10px; color: #444; font-style: italic }
 #quick-link-name { font-weight: bold; }
 
-#app-list { margin-top: -10px; }
 #app-list, #app-list p { display: block; margin: 0; padding: 0; }
-#app-list { overflow: auto; padding-left: 10px; font-size: 0.9em; }
+#app-list { overflow: auto; }
 #app-list p { float: left; width: 144px; height: 150px; margin: 1px; text-align: center; }
 #app-list p a { width: 132px; height: 134px; text-decoration: none; display: block;
 	background: #eee; border: 2px solid #eee; padding: 6px 4px; border: 1px solid #888; cursor: pointer; box-shadow: #aaa 2px 2px 2px;
 	color: black; font-size: 14px;}
 #app-list p a:hover, #app-list p.first a { background: #fff; border: 2px solid #fa0; padding: 5px 3px;}
 #app-list p img { display: block; width: 90px; height: 90px; margin: 5px auto 10px; }
+#footer { font-size: 0.7em; text-align: center; padding: 2em 0 0.5em; line-height: 1.3; }
 
-#footer { font-size: 0.7em; text-align: center; padding: 0.5em; }
+#nav, #nav li { display: block; margin: 0; padding: 0; }
+#nav li { background: #bbb; box-shadow: #222 0 1px 1px; margin: 10px 0; } 
+#nav a { display: block; padding: 4px 8px; line-height: 24px; }
+#nav img { width: 24px; margin-right: 10px; }
 
 </style>
 </head> 
@@ -108,49 +112,50 @@ h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 
 <!-- START FWOLIN HEADER -->
 <style>
-#fwolin-header { height: 30px; font-family: Helvetica, Helvetica Neue, Arial, sans-serif; font-size: 14px; }
-.fwolin-wrapper { position: absolute; top: 0; left: 0; width: 100%; background: #444; color: white; height: 30px; }
-.fwolin-brand { float: left; padding: 6px 100px 0 10px; height: 25px; font-weight: bold; color: #89f; }
-.fwolin-brand:hover { color: white; }
-.fwolin-status { float: right; margin: 6px 10px 0 0; height: 25px; }
-.fwolin-status a { color: #bbb; }
+#fwolin-header { width: 149px; padding: 15px 15px; position: fixed; top: 0; left: 0; border-right: 1px solid black;
+	font-family: Helvetica, Helvetica Neue, Arial, sans-serif; font-size: 14px; background: #444; color: white; height: 100%; }
+#fwolin-header h1 { text-shadow: #224 1px 1px 0; }
 </style>
 <div id="fwolin-header">
-<div class="fwolin-wrapper">
-<a href="http://fwol.in/" class="fwolin-brand">f w ol.in</a>
+<h1><a href="http://fwol.in/" class="fwolin-brand">fwol.in</a></h1>
+<p>An online portal for the Olin community.</p>
 {% if email %}
-<div class="fwolin-status">Logged in as {{ email }}. <a href="http://fwol.in/login/?callback=http://fwol.in/">Logout?</a></div>
+<div class="fwolin-status">Logged in as {{ name }}. <a href="http://fwol.in/login/?callback=http://fwol.in/">Logout?</a></div>
 {% else %}
 <div class="fwolin-status">Not logged in. <a href="http://fwol.in/login/?callback=http://fwol.in/">Login?</a></div>
 {% endif %}
-</div>
-</div>
-<!-- END FWOLIN HEADER -->
 
-<div id="launchpad">
-
-<h1><a href="http://fwol.in/">f w ol.in</a> &nbsp; <span class="desc">An online portal for the Olin community.</span></h1>
-
-<form id="filter-form">
-<p>Filter by title: <input type="text" size="20" id="filter-input" /> <span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span></p></form> 
-</form> 
- 
-<div id="app-list"> 
-
-<h2>Apps</h2>
-<p><a href="http://mrwiki.olin.edu" title="Mr. Wiki"><img src="images/mrwiki.jpg"> Mr. Wiki</a></p>
-<p><a href="http://seamlist.fwol.in" title="Seamlist"><img src="images/seamlist.jpeg"> Seamlist</a></p>
-<!--
+<ul id="nav">
+	<li><a href="/" title="Launchpad"><img src="images/logo.png"> Launchpad</a></li>
+	<li><a href="/calendar/" title="Student Event Calendar"><img src="http://www.smartcal.com/calendario.png"> Calendar</a></li> 
+<li><a href="http://mrwiki.olin.edu" title="Mr. Wiki"><img src="images/mrwiki.jpg"> Wiki</a></li>
+<li><a href="http://seamlist.fwol.in" title="Seamlist"><img src="images/seamlist.jpeg"> Mailing Lists</a></li>
+<li><a href="http://acl.olin.edu/advising/" title="HALP"><img src="images/halp.png"> Courses</a></li> 
+	<!--
 <p><a href="http://answers.fwol.in/" title="Olin Answers"><img src="images/directry.png"> Olin Answers</a></p> 
 <p><a href="http://directory.fwol.in/" title="Directory"><img src="images/directry.png"> Olin Directory</a></p> 
 <p><a href="http://map.fwol.in" title="Marauder's Map"><img src="images/map.jpg"> Marauder's Map</a></p> 
 <p><a href="http://pad.fwol.in" title="OlinPad"><img src="images/map.jpg"> OlinPad</a></p> 
 <p><a href="http://guesstheoliner.fwol.in" title="Guess the Oliner"><img src="images/guesstheoliner.png"> Guess The Oliner</a></p> 
 -->
-<p><a href="http://acl.olin.edu/advising/" title="HALP"><img src="images/halp.png"> HALP</a></p> 
-<p><a href="http://sao.olin.edu/calendar.html" title="Student Event Calendar"><img src="http://www.smartcal.com/calendario.png"> Student Event Calendar</a></p> 
-<p><a href="https://twitter.com/olindiningmenu" title="@olindiningmenu"><img src="http://avatars.io/twitter/olindiningmenu"> @olindiningmenu</a></p> 
-<p><a href="https://twitter.com/trimdiningmenu" title="@trimdiningmenu"><img src="http://avatars.io/twitter/trimdiningmenu"> @trimdiningmenu</a></p> 
+</ul>
+</div>
+<!-- END FWOLIN HEADER -->
+
+<form id="header" class="form-search row">
+	<h1>Launchpad</h1>
+	<div class="input-prepend">
+    <span class="add-on">
+        <i class="icon-search"></i>
+    </span>
+	<input type="search" class="span3" placeholder="Filter items..." name="search" id="filter-input">
+</div>
+	<span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span>
+</form> 
+
+<div id="content">
+ 
+<div id="app-list"> 
 
 <h2>Organizations</h2>
 <p><a href="http://core.olin.edu" title="CORe"><img class="category" src="images/corelogo.png">CORe</a></p> 
@@ -172,6 +177,8 @@ h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 <p><a href="https://webmail.olin.edu/" title="Webmail"><img src="images/webmail.png"> Webmail</a></p> 
 <p><a href="http://workorders.olin.edu" title="Workorder"><img src="images/workorder.png"> Workorder</a></p> 
 <p><a href="http://ahs.olin.edu/ahswiki/WritingTutorPage" title="Writing Tutors"><img src="images/writingtutors.png"> Writing Tutors</a></p> 
+<p><a href="https://twitter.com/olindiningmenu" title="@olindiningmenu"><img src="http://avatars.io/twitter/olindiningmenu"> @olindiningmenu</a></p> 
+<p><a href="https://twitter.com/trimdiningmenu" title="@trimdiningmenu"><img src="http://avatars.io/twitter/trimdiningmenu"> @trimdiningmenu</a></p> 
 
 <h2>Portals</h2>
 <p><a href="http://courses.olin.edu" title="Blackboard"><img src="images/blackboard.png"> Blackboard</a></p>
@@ -216,18 +223,15 @@ h1 span.desc { float: right; font-size: 0.7em; line-height: 2em; }
 <p><a href="http://arb.olin.edu/" title="ARB"><img src="images/arb.png"> ARB</a></p> 
 <p><a href="http://campusservices.olin.edu/" title="Campus Services"><img src="images/campusservices.png"> Campus Services</a></p> 
 -->
-
 </div> 
-
-</div>
-
-<a href="https://github.com/ohack/fwol.in"><img style="position: absolute; top: 30px; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 
 <p id="footer">
 Launchpad 3.0 maintained by <a href="http://ohack.us/">OHACK</a>.<br>
 Launchpad 2.0 by <a href="http://nomagicsmoke.com/" target="_blank" title="Jeffrey Stanton's Website [new window]">Jeffrey Stanton (2010)</a>.<br>
 Original version by <a href="http://www.grgmrr.com/" title="Greg Marra's Website [new window]" target="_blank">Greg Marra (2010)</a>.
 </p>
+
+</div>
  
 </body> 
 </html> 
