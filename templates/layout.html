@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en"> 
+<head>
+<title>Olin Portal | fwol.in</title> 
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+
+<link rel="shortcut icon" href="/css/rocket.png"> 
+<link rel="stylesheet" href="/css/bootstrap.css">
+<link rel="stylesheet" href="/css/bootstrap-responsive.css">
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
+
+<style>
+
+body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; background: #ddd; color: #444;}
+#content-wrapper {  height: 100%; padding-left: 180px; }
+#content { display: block; border: none; width: 100%; height: 100%; }
+
+.well { padding: 8px 0; margin-top: 20px; }
+#nav li {height: 36px; }
+#nav a { line-height: 24px; }
+#nav img { width: 24px; margin-right: 10px; }
+
+#fwolin-header { width: 149px; padding: 15px 15px; position: fixed; top: 0; left: 0; border-right: 1px solid black;
+	font-family: Helvetica, Helvetica Neue, Arial, sans-serif; font-size: 14px; background: #444; color: white; height: 100%; }
+#fwolin-header h1 { text-shadow: #224 1px 1px 0; }
+</style>
+</head>
+
+<body>
+<div id="fwolin-header">
+<h1><a href="http://fwol.in/" class="fwolin-brand">fwol.in</a></h1>
+<p>An online portal for the Olin community.</p>
+{% if email %}
+<div class="fwolin-status">Logged in as {{ name }}. <a href="http://fwol.in/login/?callback=http://fwol.in/">Logout?</a></div>
+{% else %}
+<div class="fwolin-status">Not logged in.<br>
+	<a href="http://fwol.in/login/?callback=http://fwol.in/"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a></div>
+{% endif %}
+
+<div class="well">
+<ul id="nav" class="nav nav-list">
+	<li><a href="/" title="Launchpad"><img src="/images/logo.png"> Launchpad</a></li>
+	<li><a href="/calendar/" title="Student Event Calendar"><img src="http://www.smartcal.com/calendario.png"> Calendar</a></li> 
+<li><a href="http://mrwiki.olin.edu" title="Mr. Wiki" target="content"><img src="/images/mrwiki.jpg"> Wiki</a></li>
+<li><a href="http://seamlist.fwol.in" title="Seamlist" target="content"><img src="/images/seamlist.jpeg"> Mailing Lists</a></li>
+<li><a href="http://acl.olin.edu/advising/" title="HALP" target="content"><img src="/images/halp.png"> Courses</a></li> 
+	<!--
+<p><a href="http://answers.fwol.in/" title="Olin Answers"><img src="images/directry.png"> Olin Answers</a></p> 
+<p><a href="http://directory.fwol.in/" title="Directory"><img src="images/directry.png"> Olin Directory</a></p> 
+<p><a href="http://map.fwol.in" title="Marauder's Map"><img src="images/map.jpg"> Marauder's Map</a></p> 
+<p><a href="http://pad.fwol.in" title="OlinPad"><img src="images/map.jpg"> OlinPad</a></p> 
+<p><a href="http://guesstheoliner.fwol.in" title="Guess the Oliner"><img src="images/guesstheoliner.png"> Guess The Oliner</a></p> 
+-->
+</ul>
+</div>
+</div>
+
+<div id="content-wrapper">
+{% block content %}{% endblock %}
+</div>
+ 
+</body> 
+</html> 
