@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/css/bootstrap.css">
 <link rel="stylesheet" href="/css/bootstrap-responsive.css">
 
+<script src="https://login.persona.org/include.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script> 
 
 <style>
@@ -41,6 +42,68 @@ body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; back
 #quick-link-name { font-weight: bold; }
 #iframe-wrapper { margin: 10px 0;}
 </style>
+
+<script>
+$(function () {
+	var signinLink = document.getElementById('signin');
+	if (signinLink) {
+	  signinLink.onclick = function() {
+      navigator.id.request(); return false;
+    };
+	};
+	 
+	var signoutLink = document.getElementById('signout');
+	if (signoutLink) {
+	  signoutLink.onclick = function() {
+      navigator.id.logout(); return false;
+    };
+	};
+});
+
+{% if email %}
+var currentUser = "{{ email }}";
+{% else %}
+var currentUser = null;
+{% endif %}
+
+navigator.id.watch({
+  loggedInUser: currentUser,
+  onlogin: function(assertion) {
+    // A user has logged in! Here you need to:
+    // 1. Send the assertion to your backend for verification and to create a session.
+    // 2. Update your UI.
+    if (currentUser) {
+      return navigator.id.logout();
+    }
+    $.ajax({ /* <-- This example uses jQuery, but you can use whatever you'd like */
+      type: 'POST',
+      url: '/login/', // This is a URL on your website.
+      data: {
+        assertion: assertion
+      },
+      success: function(res, status, xhr) {
+        window.location.reload();
+      },
+      error: function(res, status, xhr) {
+        alert("login failure" + res);
+      }
+    });
+  },
+  onlogout: function() {
+    $.ajax({ /* <-- This example uses jQuery, but you can use whatever you'd like */
+      type: 'POST',
+      url: '/logout/', // This is a URL on your website.
+      success: function(res, status, xhr) {
+        window.location.reload();
+      },
+      error: function(res, status, xhr) {
+        alert("logout failure" + res);
+      }
+    });
+  }
+});
+
+</script>
 </head>
 
 <body>
@@ -48,10 +111,10 @@ body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; back
 <h1><a href="/" class="fwolin-brand">fwol.in</a></h1>
 <p>An online portal for the Olin community.</p>
 {% if email %}
-<div class="fwolin-status">Logged in as {{ name }}. <a href="http://fwol.in/login/?callback=http://fwol.in/">Logout?</a></div>
+<div class="fwolin-status">Logged in as {{ name }}. <a href="http://fwol.in/login/?callback=http://fwol.in/" id="signout">Logout?</a></div>
 {% else %}
 <div class="fwolin-status">Not logged in.<br>
-	<a href="http://fwol.in/login/?callback=http://fwol.in/"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a></div>
+	<a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a></div>
 {% endif %}
 
 <div class="well">
@@ -59,7 +122,7 @@ body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; back
 	<li><a href="/" title="Launchpad"><img src="/images/logo.png"> Launchpad</a></li>
 	<li><a href="/calendar/" title="Student Event Calendar"><img src="http://www.smartcal.com/calendario.png"> Calendar</a></li> 
 <li><a href="http://mrwiki.olin.edu" title="Mr. Wiki" target="content"><img src="/images/mrwiki.jpg"> Wiki</a></li>
-<li><a href="http://seamlist.fwol.in" title="Seamlist" target="content"><img src="/images/seamlist.jpeg"> Mailing Lists</a></li>
+<!--<li><a href="http://seamlist.fwol.in" title="Seamlist" target="content"><img src="/images/seamlist.jpeg"> Mailing Lists</a></li>-->
 <li><a href="http://acl.olin.edu/advising/" title="HALP" target="content"><img src="/images/halp.png"> Courses</a></li> 
 	<!--
 <p><a href="http://answers.fwol.in/" title="Olin Answers"><img src="images/directry.png"> Olin Answers</a></p> 
@@ -70,6 +133,9 @@ body { font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, sans-serif; back
 -->
 </ul>
 </div>
+
+<br>
+<p>Want to improve the site? <a href="http://github.com/ohack/fwol.in">Submit a patch!</a></p>
 </div>
 
 <div id="content-wrapper">
