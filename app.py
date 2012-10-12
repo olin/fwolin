@@ -53,7 +53,6 @@ def network_login(dn, user, password):
 		# parse result
 		return re.search(r'<t:EmailAddress>([^<]+)</t:EmailAddress>', res).group(1)
 	except Error, e:
-		print e
 		return False
 
 # Returns whether we can establish a session or not.
@@ -85,12 +84,10 @@ def enable_auth(app, whitelist=[]):
 					try:
 						username, password = bundle.split(':')
 						email = network_login('MILKYWAY', username, password)
-						print email
 						if email:
 							AUTH_CACHE[request.headers.get('Authorization')] = email
 							session['email'] = email
 					except Error, e:
-						print e
 						pass
 
 		if request.path in whitelist or '*' in whitelist:
@@ -103,7 +100,6 @@ def enable_auth(app, whitelist=[]):
 
 @app.route('/')
 def index():
-	print(session.get('email', ''))
 	return render_template('index.html',
 		email=session.get('email', None),
 		name=(session.get('email', '') or '').split('@')[0])
