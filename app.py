@@ -61,7 +61,7 @@ def _consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s:%s' % (HOST, PORT)})
 	ret = json.loads(r.text)
 	if ret['status'] == 'okay':
-		domain = re.sub(r'^[^@]+', '', ret['email'])
+		domain = re.sub(r'^[^@]+', '', ret['email']).lower()
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 			session['email'] = ret['email']
 			session.permanent = True
@@ -111,8 +111,8 @@ def api_me():
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
 	if request.method == 'POST':
-		_consume_assertion(request.form['assertion'])
-		return redirect('/')
+		isin = _consume_assertion(request.form['assertion'])
+		return redirect('/?success=' + str(isin))
 	else:
 		return render_template('login.html')
 
