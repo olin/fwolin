@@ -15,41 +15,42 @@ else:
 # Auth
 # -----------
 
-import ldap, base64
+import base64, ntlm, urllib2
 
-LDAP_SERVER = "ldap://ldap.olin.edu"
-
-def ldap_auth(server, username, dn, secret):
+def network_login(dn, user, password):
 	try:
-		dn = dn + "\\" + username
+		url = "https://webmail.olin.edu/ews/exchange.asmx"
 
-		ldap.set_option(ldap.OPT_REFERRALS, 0)
-		l = ldap.initialize(server)
-		l.protocol_version = 3
-		l.simple_bind_s(dn, secret)
+		# setup HTTP password handler
+		passman = urllib2.HTTPPasswordMgrWithDefaultRealm()
+		passman.add_password(None, url, dn + '\\' + user, password)
+		# create NTLM authentication handler
+		auth_NTLM = HTTPNtlmAuthHandler.HTTPNtlmAuthHandler(passman)
+		proxy_handler =  urllib2.ProxyHandler({})
+		opener = urllib2.build_opener(proxy_handler,auth_NTLM)
 
-		## The next lines will also need to be changed to support your search requirements and directory
-		baseDN = "dc=olin,dc=edu"
-		searchScope = ldap.SCOPE_SUBTREE
-		## retrieve all attributes - again adjust to your needs - see documentation for more options
-		retrieveAttributes = None 
-		searchFilter = "sAMAccountName=%s" % username
+		# this function sends the custom SOAP command which expands
+		# a given distribution list
+		data = """<?xml version="1.0" encoding="utf-8"?>
+	<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+		           xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">
+	  <soap:Body>
+	  <ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"
+	                xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
+	                ReturnFullContactData="true">
+	    <UnresolvedEntry>%s</UnresolvedEntry>
+	  </ResolveNames>
+	  </soap:Body>
+	</soap:Envelope>
+	""" % user
+		# send request
+		headers = {'Content-Type': 'text/xml; charset=utf-8'}
+		req = urllib2.Request(url, data=data, headers=headers)
+		res = opener.open(req).read()
 
-		ldap_result_id = l.search(baseDN, searchScope, searchFilter, retrieveAttributes)
-		result_set = []
-		while 1:
-			result_type, result_data = l.result(ldap_result_id, 0)
-			if (result_data == []):
-				break
-			else:
-				## here you don't have to append to a list
-				## you could do whatever you want with the individual entry
-				## The appending to list is just for illustration. 
-				if result_type == ldap.RES_SEARCH_ENTRY:
-					return result_data[0][1]['mail'][0]
-
-	except ldap.INVALID_CREDENTIALS, e:
-		print e
+		# parse result
+		return re.search(r'<t:EmailAddress>([^<]+)</t:EmailAddress>', res).group(1)
+	except:
 		return False
 
 # Returns whether we can establish a session or not.
@@ -64,7 +65,7 @@ def _consume_assertion(assertion):
 			return True
 	return False
 
-LDAP_CACHE = dict()
+AUTH_CACHE = dict()
 
 # Enable authentication on an application.
 def enable_auth(app, whitelist=[]):
@@ -72,17 +73,17 @@ def enable_auth(app, whitelist=[]):
 	def auth():
 		# LDAP authorization.
 		if request.headers.get('Authorization'):
-			if LDAP_CACHE.get(request.headers.get('Authorization')):
-				session['email'] = LDAP_CACHE.get(request.headers.get('Authorization'))
+			if AUTH_CACHE.get(request.headers.get('Authorization')):
+				session['email'] = AUTH_CACHE.get(request.headers.get('Authorization'))
 			elif request.headers.get('Authorization', '')[0:5] == 'LDAP ':
 				#bundle = base64.b64decode(request.headers.get('Authorization', '')[5])
 				bundle = request.headers.get('Authorization', '')[5:]
 				if bundle.find(':') > -1:
 					try:
 						username, password = bundle.split(':')
-						email = ldap_auth(LDAP_SERVER, username, "MILKYWAY", password)
+						email = network_login('MILKYWAY', username, password)
 						if email:
-							LDAP_CACHE[request.headers.get('Authorization')] = email
+							AUTH_CACHE[request.headers.get('Authorization')] = email
 							session['email'] = email
 					except:
 						pass
