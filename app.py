@@ -85,6 +85,7 @@ def enable_auth(app, whitelist=[]):
 					try:
 						username, password = bundle.split(':')
 						email = network_login('MILKYWAY', username, password)
+						print email
 						if email:
 							AUTH_CACHE[request.headers.get('Authorization')] = email
 							session['email'] = email
