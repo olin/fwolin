@@ -104,6 +104,10 @@ def index():
 		email=session.get('email', None),
 		name=(session.get('email', '') or '').split('@')[0])
 
+@app.route('/me')
+def me():
+	return session.get('email', '')
+
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
 	if request.method == 'POST':
