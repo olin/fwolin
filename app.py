@@ -9,6 +9,7 @@ Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 PORT = int(os.environ.get('PORT', 5000))
 if 'PORT' in os.environ:
 	HOST = 'fwol.in'
+	app.config.update(SERVER_NAME='fwol.in')
 else:
 	HOST = 'localhost'
 
@@ -139,6 +140,4 @@ enable_auth(app, ['*'])
 if __name__ == '__main__':
 	# Bind to PORT if defined, otherwise default to 5000.
 	app.debug = True
-	if 'PORT' in os.environ:
-		app.config.update(SERVER_NAME='fwol.in')
 	app.run(host=HOST, port=PORT)
