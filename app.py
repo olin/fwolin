@@ -8,10 +8,12 @@ Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 
 PORT = int(os.environ.get('PORT', 5000))
 if 'PORT' in os.environ:
+	HOSTNAME = 'fwol.in'
 	HOST = 'fwol.in'
 	app.config.update(SERVER_NAME='fwol.in')
 else:
-	HOST = 'localhost'
+	HOSTNAME = 'localhost'
+	HOST = 'localhost:5000'
 
 # Auth
 # -----------
@@ -58,11 +60,10 @@ def network_login(dn, user, password):
 
 # Returns whether we can establish a session or not.
 def _consume_assertion(assertion):
-	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s:%s' % (HOST, PORT)})
+	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s:%s' % HOST})
 	ret = json.loads(r.text)
-	return ret
 	if ret['status'] == 'okay':
-		domain = re.sub(r'^[^@]+', '', ret['email']).lower()
+		domain = re.sub(r'^[^@]+', '', ret['email'])
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 			session['email'] = ret['email']
 			session.permanent = True
@@ -112,8 +113,8 @@ def api_me():
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
 	if request.method == 'POST':
-		isin = _consume_assertion(request.form['assertion'])
-		return redirect('/?success=' + str(isin))
+		_consume_assertion(request.form['assertion'])
+		return redirect('/')
 	else:
 		return render_template('login.html')
 
@@ -141,4 +142,4 @@ enable_auth(app, ['*'])
 if __name__ == '__main__':
 	# Bind to PORT if defined, otherwise default to 5000.
 	app.debug = True
-	app.run(host=HOST, port=PORT)
+	app.run(host=HOSTNAME, port=PORT)
