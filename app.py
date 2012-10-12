@@ -60,6 +60,7 @@ def network_login(dn, user, password):
 def _consume_assertion(assertion):
 	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s:%s' % (HOST, PORT)})
 	ret = json.loads(r.text)
+	return ret
 	if ret['status'] == 'okay':
 		domain = re.sub(r'^[^@]+', '', ret['email']).lower()
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
