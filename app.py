@@ -50,7 +50,8 @@ def network_login(dn, user, password):
 
 		# parse result
 		return re.search(r'<t:EmailAddress>([^<]+)</t:EmailAddress>', res).group(1)
-	except:
+	except Error, e:
+		print e
 		return False
 
 # Returns whether we can establish a session or not.
@@ -75,9 +76,9 @@ def enable_auth(app, whitelist=[]):
 		if request.headers.get('Authorization'):
 			if AUTH_CACHE.get(request.headers.get('Authorization')):
 				session['email'] = AUTH_CACHE.get(request.headers.get('Authorization'))
-			elif request.headers.get('Authorization', '')[0:5] == 'LDAP ':
+			elif request.headers.get('Authorization', '')[0:6] == 'Basic ':
 				#bundle = base64.b64decode(request.headers.get('Authorization', '')[5])
-				bundle = request.headers.get('Authorization', '')[5:]
+				bundle = request.headers.get('Authorization', '')[6:]
 				if bundle.find(':') > -1:
 					try:
 						username, password = bundle.split(':')
