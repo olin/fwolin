@@ -60,7 +60,7 @@ def network_login(dn, user, password):
 
 # Returns whether we can establish a session or not.
 def _consume_assertion(assertion):
-	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s:%s' % HOST})
+	r = requests.post("https://browserid.org/verify", data={"assertion": assertion, "audience": '%s' % HOST})
 	ret = json.loads(r.text)
 	if ret['status'] == 'okay':
 		domain = re.sub(r'^[^@]+', '', ret['email'])
