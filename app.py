@@ -15,7 +15,9 @@ else:
 # Auth
 # -----------
 
-import base64, ntlm, urllib2
+import urllib2, re, getpass, urllib2, base64
+from urllib2 import URLError
+from ntlm import HTTPNtlmAuthHandler
 
 def network_login(dn, user, password):
 	try:
