@@ -88,7 +88,8 @@ def enable_auth(app, whitelist=[]):
 						if email:
 							AUTH_CACHE[request.headers.get('Authorization')] = email
 							session['email'] = email
-					except:
+					except Error, e:
+						print e
 						pass
 
 		if request.path in whitelist or '*' in whitelist:
