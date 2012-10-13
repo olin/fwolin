@@ -108,7 +108,7 @@ def index():
 
 @app.route('/api/me')
 def api_me():
-	return session.get('email', '')
+	return json.dumps(session.get('email', None))
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
