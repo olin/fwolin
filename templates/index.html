@@ -69,9 +69,7 @@ $(function () {
 <style>
 
 .container-fluid h2 { clear: both; margin: 0; padding: 15px 0 5px; font-size: 1.3em; line-height: inherit; }
-#header { border-bottom: 1px solid #999; margin: 0 0 15px; padding: 15px 0 15px 20px; background: #eee; overflow: auto; }
-#header h1 { font-size: 30px; float: left; margin: 0; padding: 0; text-shadow: #fff 1px 1px 0; }
-#header div { padding: 5px 0 0 45px; vertical-align: baseline; }
+#header .header-search { padding: 5px 0 0 45px; vertical-align: baseline; }
 #quick-link { padding: 3px 0 0 10px; color: #444; font-style: italic }
 #quick-link-name { font-weight: bold; }
 
@@ -93,13 +91,30 @@ $(function () {
 
 <form id="header" class="form-search row">
 	<h1>Launchpad</h1>
-	<div class="input-prepend">
+	<div class="input-prepend header-search">
     <span class="add-on">
         <i class="icon-search"></i>
     </span>
 	<input type="search" class="span3" placeholder="Filter items..." name="search" id="filter-input">
 </div>
 	<span id="quick-link">Press ENTER to go to <span id="quick-link-name"></span></span>
+	<div id="header-controls">
+
+<a href="#correctitem" role="button" class="btn btn-info" data-toggle="modal">Add or Correct Links</a>
+<div class="modal hide fade" id="correctitem">
+	<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Adding or Correcting Links</h3>
+  </div>
+  <div class="modal-body">
+    To add or correct links:
+    <ul>
+    	<li>Send an email to <a href="mailto:timothy.ryan@students.olin.edu">Tim Ryan</a> describing the changes to be made.</li>
+    	<li><a href="http://github.com/ohack/fwol.in">Submit a patch or issue</a> on Github, and feel free to contribut any changes you'd like.</li>
+    </ul>
+  </div>
+	</div>
+</div>
 </form> 
 
 <div class="container-fluid">

@@ -9,18 +9,27 @@ $(function () {
 });
 </script>
 
-<form id="header" method="post">
+<form id="header" method="post" action="http://ohack-calendar.herokuapp.com/">
 
 	<h1>Event Calendar</h1>
 
-<a href="#importcalendar" role="button" class="btn btn-info" data-toggle="modal">Import this calendar</a>
+<div id="header-controls">
+<a href="#importcalendar" role="button" class="btn btn-info" data-toggle="modal">Add calendar to Outlook</a>
 <div class="modal hide fade" id="importcalendar">
 	<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>To import this calendar</h3>
+    <h3>Adding calendar to Outlook</h3>
   </div>
   <div class="modal-body">
-    Import this iCal address into your calendar program: <a href="https://www.google.com/calendar/ical/olineventcalendar%40gmail.com/public/basic.ics">https://www.google.com/calendar/ical/olineventcalendar%40gmail.com/public/basic.ics</a>
+    <p>Copy this address:</p>
+    <pre style="font-size: 12px"><a href="https://www.google.com/calendar/ical/olineventcalendar%40gmail.com/public/basic.ics">https://www.google.com/calendar/ical/olineventcalendar%40gmail.com/public/basic.ics</a></pre>
+    <p>Open Outlook and go to the top menu, clicking Tools &rarr; Account Settings. In Account Settings choose the Internet Calendars tab, click on New... and Paste the URL you just copied from Google into the location and click Add.</p>
+    <p style="margin: 25px 50px"><img src="http://www.howtogeek.com/wp-content/uploads/2007/05/WindowsLiveWriter/ViewYourGoogleCalendarWithOutlook2007_10DE0/call2.png"></p>
+    <p>You then get to the subscriptions screen. Give the calendar a name and description and click OK.</p>
+    <p style="margin: 25px 50px"><img src="http://www.howtogeek.com/wp-content/uploads/2007/05/WindowsLiveWriter/ViewYourGoogleCalendarWithOutlook2007_10DE0/cala.png"></p>
+    <p>You can now see the calendar in the list in the Outlook sidebar panel.</p>
+    <p style="margin: 25px 50px; text-align: center"><img src="http://www.howtogeek.com/wp-content/uploads/2007/05/WindowsLiveWriter/ViewYourGoogleCalendarWithOutlook2007_10DE0/ffff.png"></p>
+    <p><em><small>Source: <a href="http://www.howtogeek.com/howto/microsoft-office/view-your-google-calendar-in-outlook-2007/">http://www.howtogeek.com/howto/microsoft-office/view-your-google-calendar-in-outlook-2007/</a></small></em></p>
   </div>
 	</div>
 
@@ -28,10 +37,14 @@ $(function () {
 <div class="modal hide fade" id="addevent">
 	<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>To add an event</h3>
+    <h3>Adding an event</h3>
   </div>
   <div class="modal-body">
-    iCals sent to the carpediem@lists.olin.edu mailing list are automatically added to this calendar. To add an event directly, send an email with an attached iCal to <a href="mailto:olineventcalendar@gmail.com">olineventcalendar@gmail.com</a> 
+    There are two ways to simply add an event to this calendar:
+    <ul>
+      <li>Events with iCals sent to the <a href="mailto:carpediem@lists.olin.edu">carpediem@lists.olin.edu</a> mailing list are automatically added to this calendar.</li>
+      <li>To add an event directly, send attach an iCal to an email sent to <a href="mailto:olineventcalendar@gmail.com">olineventcalendar@gmail.com</a></li>
+    </ul>
   </div>
 	</div>
 
@@ -39,12 +52,13 @@ $(function () {
 <div class="modal hide fade" id="correctevent">
 	<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>To correct errors</h3>
+    <h3>Correcting Events</h3>
   </div>
   <div class="modal-body">
-    Share this calendar with your school address and edit it using Google Calendar: <input type="text" name="email">@students.olin.edu <button class="btn btn-success">Share to Google Calendar</button>
+    To correct an event, share this calendar with your @students.olin.edu and edit it using Google Calendar: <input type="text" name="email">@students.olin.edu <button class="btn btn-success">Share to Google Calendar</button>
   </div>
 	</div>
+</div>
 </form>
 
 <div class="container-fluid">
