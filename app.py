@@ -10,7 +10,7 @@ PORT = int(os.environ.get('PORT', 5000))
 if 'PORT' in os.environ:
 	HOSTNAME = 'fwol.in'
 	HOST = 'fwol.in'
-	app.config.update(SERVER_NAME='fwol.in')
+	#app.config.update(SERVER_NAME='ohack-fwolin.herokuapp.com')
 else:
 	HOSTNAME = 'localhost'
 	HOST = 'localhost:5000'
