@@ -121,8 +121,10 @@ def login():
 		return redirect('/')
 	else:
 		if request.args.get('callback', None) and session.get('email', None):
-			if True:#re.match(r'^http://[a-z_\-]+\.olinapps\.com\/', request.args['callback']):
+			if re.match(r'^http://[a-z_\-]+\.olinapps\.com\/', request.args['callback']):
 				return redirect(request.args['callback'] + '?code=' + urllib.quote_plus(request.cookies.get(app.session_cookie_name)))
+			else:
+				return Response(json.dumps(dict(error='Invalid callback domain: ' + request.args['callback'])), 400, {'content-type': 'application/json'})
 		if session.get('email'):
 			return redirect('/')
 		return render_template('login.html',
