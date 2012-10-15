@@ -2,7 +2,7 @@
 import os, random, string, requests, json, re, time
 import hashlib, requests, json, time, os, re
 
-from flask import Flask, session, request, redirect, url_for, render_template, jsonify
+from flask import Flask, session, request, redirect, url_for, render_template, jsonify, Response
 app = Flask(__name__, static_url_path='')
 Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 
@@ -73,7 +73,7 @@ def _consume_assertion(assertion):
 AUTH_CACHE = dict()
 
 # Enable authentication on an application.
-def enable_auth(app, whitelist=[]):
+def enable_auth(app, blacklist=[]):
 	@app.before_request
 	def auth():
 		# LDAP authorization.
@@ -92,10 +92,10 @@ def enable_auth(app, whitelist=[]):
 					except Error, e:
 						pass
 
-		if request.path in whitelist or '*' in whitelist:
-			return
-		# Redo redirect
-		return redirect('/')
+		if not session['email']:
+			for item in blacklist:
+				if item == '*' or request.path.startswith(item):
+					return Response('Please authenticate to access this resource.', 401)
 
 # Routes
 # ------
@@ -153,7 +153,7 @@ def directory_api_people():
 # ----------------------
 
 # All pages are accessible, but enable user accounts.
-enable_auth(app, ['*'])
+enable_auth(app, ['/api/'])
 
 # Launch
 # ------
