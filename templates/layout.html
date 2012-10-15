@@ -149,7 +149,7 @@ navigator.id.watch({
 <body>
 <div id="fwolin-header">
 <h1><a href="/" class="fwolin-brand">fwol.in</a></h1>
-<p>An online portal for the Olin community.</p>
+<p><a href="#fwolin-about" role="button" data-toggle="modal" style="color: white">An online portal for the Olin community.</a></p>
 
 <div class="well">
 <ul id="nav" class="nav nav-list">
@@ -180,6 +180,17 @@ navigator.id.watch({
 
 <p id="contribute">Want to improve fwol.in? <a href="http://github.com/ohack/fwol.in">Edit the code</a>, or e-mail <a href="mailto:timothy.ryan@students.olin.edu">Tim Ryan</a>. Updated Fall 2012.</p>
 </div>
+
+<div class="modal hide fade" id="fwolin-about">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>About fwol.in</h3>
+  </div>
+  <div class="modal-body">
+    <p><img src="http://imgs.xkcd.com/comics/university_website.png"></p>
+    <p>We're trying to be the right side of this diagram. Maintained by <a href="http://github.com/ohack/">OHACK</a>.</p>
+  </div>
+  </div>
 
 <div id="content-wrapper">
 {% block content %}{% endblock %}
