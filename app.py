@@ -135,7 +135,7 @@ def api_me():
 	return json.dumps(session.get('email', None))
 
 @app.route('/api/people')
-def api_me():
+def api_people():
 	return jsonify(people=[
 		{
 			"fullname": "Timothy Ryan",
