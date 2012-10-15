@@ -1,6 +1,6 @@
 #s
 import os, random, string, requests, json, re, time
-import hashlib, requests, json, time, os, re
+import hashlib, requests, json, time, os, re, urllib
 
 from flask import Flask, session, request, redirect, url_for, render_template, jsonify, Response
 app = Flask(__name__, static_url_path='')
@@ -120,7 +120,14 @@ def login():
 		_consume_assertion(request.form['assertion'])
 		return redirect('/')
 	else:
-		return render_template('login.html')
+		if request.args.get('callback', None) and session.get('email', None):
+			if re.match(r'^http://[a-z_\-]+\.olinapps\.com\/', request.args['callback']):
+				return redirect(request.args['callback'] + '?code=' + urllib.quote_plus(request.cookies.get(app.session_cookie_name)))
+		if session.get('email'):
+			return redirect('/')
+		return render_template('login.html',
+			email=session.get('email', None),
+			name=(session.get('email', '') or '').split('@')[0])
 
 @app.route('/logout/', methods=['GET', 'POST'])
 def logout():
