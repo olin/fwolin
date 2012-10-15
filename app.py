@@ -121,7 +121,7 @@ def login():
 		return redirect('/')
 	else:
 		if request.args.get('callback', None) and session.get('email', None):
-			if re.match(r'^http://[a-z_\-]+\.olinapps\.com\/', request.args['callback']):
+			if True:#re.match(r'^http://[a-z_\-]+\.olinapps\.com\/', request.args['callback']):
 				return redirect(request.args['callback'] + '?code=' + urllib.quote_plus(request.cookies.get(app.session_cookie_name)))
 		if session.get('email'):
 			return redirect('/')
