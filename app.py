@@ -89,7 +89,7 @@ def enable_auth(app, blacklist=[]):
 						if email:
 							AUTH_CACHE[request.headers.get('Authorization')] = email
 							session['email'] = email
-					except Error, e:
+					except Exception, e:
 						pass
 
 		if not session.get('email'):
