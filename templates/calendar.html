@@ -61,11 +61,17 @@ $(function () {
 </div>
 </form>
 
+<style>
+html, body, #content-wrapper, .container-fluid, .container-fluid iframe, #iframe-wrapper { height: 100%; }
+#content-wrapper { box-sizing: border-box; padding-top: 100px; }
+#header { margin-top: -100px; margin-bottom: 15px; }
+</style>
+
 <div class="container-fluid">
-<div id="iframe-wrapper" class="row-fluid">
-  <iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=olineventcalendar%40gmail.com&amp;color=%232952A3&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="600" frameborder="0" scrolling="no" class="span4"></iframe>
-<iframe src="https://www.google.com/calendar/embed?src=olineventcalendar%40gmail.com&amp;showTitle=0&amp;ctz=America/New_York&amp;mode=WEEK" style="border: 0" width="800" height="600" frameborder="0" scrolling="no" class="span8"></iframe>
-</div>
+  <div id="iframe-wrapper" class="row-fluid">
+    <iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=1&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;mode=AGENDA&amp;wkst=1&amp;bgcolor=%23dddddd&amp;src=olineventcalendar%40gmail.com&amp;color=%232952A3&amp;ctz=America%2FNew_York" style=" border-width:0 " width="800" height="300" frameborder="0" scrolling="no" class="span4"></iframe>
+  <iframe src="https://www.google.com/calendar/embed?src=olineventcalendar%40gmail.com&amp;showTitle=0&amp;ctz=America/New_York&amp;mode=WEEK&amp;bgcolor=%23dddddd" style="border: 0" width="800" height="300" frameborder="0" scrolling="no" class="span8"></iframe>
+  </div>
 </div>
 
 {% endblock %}
