@@ -73,7 +73,7 @@ def _consume_assertion(assertion):
 AUTH_CACHE = dict()
 
 # Enable authentication on an application.
-def enable_auth(app, blacklist=[]):
+def enable_auth(app, blacklist, unauthed):
 	@app.before_request
 	def auth():
 		# LDAP authorization.
@@ -95,7 +95,7 @@ def enable_auth(app, blacklist=[]):
 		if not session.get('email'):
 			for item in blacklist:
 				if item == '*' or request.path.startswith(item):
-					return Response('Please authenticate to access this resource.', 401)
+					return unauthed()
 
 # Routes
 # ------
@@ -145,15 +145,17 @@ def api_people():
 		}
 	])
 
-@app.route('/directory/api/people.json')
-def directory_api_people():
-	return redirect('/api/people')
-
 # Fwol.in Authentication
 # ----------------------
 
+def fwolin_unauthed():
+	if request.path.startswith('/api/'):
+		return Response(json.dumps({"error": "Unauthorized"}), 401, {'Content-Type': 'application/json'})
+	else:
+		return Response('Please authenticate to access this resource.', 401)
+
 # All pages are accessible, but enable user accounts.
-enable_auth(app, ['/api/'])
+enable_auth(app, ['/api/'], fwolin_unauthed)
 
 # Launch
 # ------
