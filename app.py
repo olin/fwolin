@@ -2,7 +2,7 @@
 import os, random, string, requests, json, re, time
 import hashlib, requests, json, time, os, re
 
-from flask import Flask, session, request, redirect, url_for, render_template
+from flask import Flask, session, request, redirect, url_for, render_template, jsonify
 app = Flask(__name__, static_url_path='')
 Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
 
@@ -106,9 +106,13 @@ def index():
 		email=session.get('email', None),
 		name=(session.get('email', '') or '').split('@')[0])
 
-@app.route('/api/me')
-def api_me():
-	return json.dumps(session.get('email', None))
+@app.route('/calendar/')
+def calendar():
+	return render_template('calendar.html',
+		email=session.get('email', None),
+		name=(session.get('email', '') or '').split('@')[0])
+
+# Login/out
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -124,11 +128,26 @@ def logout():
 		session['email'] = None
 	return redirect('/')
 
-@app.route('/calendar/')
-def calendar():
-	return render_template('calendar.html',
-		email=session.get('email', None),
-		name=(session.get('email', '') or '').split('@')[0])
+# API
+
+@app.route('/api/me')
+def api_me():
+	return json.dumps(session.get('email', None))
+
+@app.route('/api/people')
+def api_me():
+	return jsonify(people=[
+		{
+			"fullname": "Timothy Ryan",
+			"name": "Tim Ryan",
+			"room": "EH428C",
+			"github": "http://github.com/tcr"
+		}
+	])
+
+@app.route('/directory/api/people.json')
+def directory_api_people():
+	return redirect('/api/people')
 
 # Fwol.in Authentication
 # ----------------------
