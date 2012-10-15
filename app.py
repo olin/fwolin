@@ -92,7 +92,7 @@ def enable_auth(app, blacklist=[]):
 					except Error, e:
 						pass
 
-		if not session['email']:
+		if not session.get('email'):
 			for item in blacklist:
 				if item == '*' or request.path.startswith(item):
 					return Response('Please authenticate to access this resource.', 401)
