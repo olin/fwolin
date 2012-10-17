@@ -54,7 +54,7 @@ body {
   #fwolin-header h1 { text-shadow: #224 1px 1px 0; text-align: center; }
   #fwolin-header p { margin: 0 10px;}
   .fwolin-status { margin: 10px 10px; }
-  #fwolin-header #contribute { line-height: 1.3; margin-top: 40px; text-align: center; color: #888; text-shadow: #000 0 1px 1px; }
+  #fwolin-header #contribute { line-height: 1.3; margin-top: 50px; text-align: center; color: #888; text-shadow: #000 0 1px 1px; }
   #fwolin-header #contribute:hover { color: #bbb; }
   #fwolin-header div.well a {}
   #fwolin-header div.well { padding: 0; margin: 12px 0 15px; background: none; border: none; border-radius: 0; }
@@ -69,6 +69,15 @@ body {
   #fwolin-header div.well { padding: 0; margin: 0; background: transparent; min-height: 0; }
   .fwolin-status { display: none; }
 }
+
+#olinstar { padding-top: 1.8em; font-size: 16px; padding-left: 0.25em; line-height: 1.5; text-shadow: black 0 1px 1px;}
+#olinstar a { color: #ddd; text-decoration: none;  opacity: 0.9; }
+#olinstar a:hover { opacity: 1.0;  }
+#olinstar b::after { content: " →"; }
+#olinstar b { font-weight: normal; } 
+#olinstar .students { color: #3ac; }
+#olinstar .apps { color: #c26; }
+#olinstar .projects { color: #f90; }
 
 /*
  * page
@@ -177,6 +186,14 @@ navigator.id.watch({
 	<a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a>
 </p>
 {% endif %}
+
+<p id="olinstar">
+<a href="http://olinstudents.com/">olin<b class="students">students</b></a>
+<br>
+<a href="http://olinapps.com/">olin<b class="apps">apps</b></a>
+<br>
+<a href="http://olinprojects.com/">olin<b class="projects">projects</b></a>
+</p>
 
 <p id="contribute">Want to improve fwol.in? <a href="http://github.com/ohack/fwol.in">Edit the code</a>, or e-mail <a href="mailto:timothy.ryan@students.olin.edu">Tim Ryan</a>. Updated Fall 2012.</p>
 </div>
