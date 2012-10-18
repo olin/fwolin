@@ -14,6 +14,55 @@ else:
 	HOSTNAME = 'localhost'
 	HOST = 'localhost:5000'
 
+# Mongo
+# -----------
+
+from pymongo import Connection, ASCENDING, DESCENDING
+from bson.code import Code
+from bson.objectid import ObjectId
+
+if os.environ.has_key('MONGOLAB_URI'):
+	mongodb_uri = os.environ['MONGOLAB_URI']
+	db_name = 'heroku_app8341032'
+else:
+	mongodb_uri = "mongodb://localhost:27017/"
+	db_name = 'fwolin'
+
+connection = Connection(mongodb_uri)
+db = connection[db_name]
+#db.authenticate("", "")
+
+db.users.drop()
+"""
+db.users.insert(dict(
+	email='timothy.ryan@students.olin.edu',
+	name='Timothy Ryan',
+	nickname='Tim Ryan',
+	room='EH426C'
+))
+"""
+
+def ensure_user(email):
+	print("ENSURING USER", email)
+	if not db.user.find_one(dict(email=email)):
+		print("CREATING USER")
+		name = email[0:email.find('@')].replace('.', ' ').title()
+		db.user.insert(dict(
+			email=email,
+			name=name,
+			nickname=None,
+			room=None
+		))
+
+def db_user_json(user):
+	return dict(
+		id=str(user['_id']),
+		email=user['email'],
+		name=user['name'],
+		nickname=user['nickname'],
+		room=user['room']
+	)
+
 # Auth
 # -----------
 
@@ -64,8 +113,9 @@ def _consume_assertion(assertion):
 	if ret['status'] == 'okay':
 		domain = re.sub(r'^[^@]+', '', ret['email'])
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
-			session['email'] = ret['email']
+			session['email'] = ret['email'].lower()
 			session.permanent = True
+			ensure_user(session['email'])
 			return True
 	return False
 
@@ -86,8 +136,8 @@ def enable_auth(app, blacklist, unauthed):
 						username, password = bundle.split(':')
 						email = network_login('MILKYWAY', username, password)
 						if email:
-							AUTH_CACHE[request.headers.get('Authorization')] = email
-							session['email'] = email
+							AUTH_CACHE[request.headers.get('Authorization')] = email.lower()
+							session['email'] = email.lower()
 					except Exception, e:
 						pass
 
@@ -144,14 +194,7 @@ def api_me():
 
 @app.route('/api/people')
 def api_people():
-	return jsonify(people=[
-		{
-			"fullname": "Timothy Ryan",
-			"name": "Tim Ryan",
-			"room": "EH428C",
-			"github": "http://github.com/tcr"
-		}
-	])
+	return jsonify(people=[db_user_json(user) for user in db.users.find()])
 
 # Fwol.in Authentication
 # ----------------------
