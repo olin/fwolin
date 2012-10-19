@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<style>
+#person-list { margin-top: 20px; }
+#person-list div { overflow: auto; padding-bottom: 15px; border-bottom: 1px solid #666; margin-bottom: 15px }
+#person-list h3 { float: left; margin: 0 }
+#person-list p { float: right; }
+</style>
+
+<form id="header" class="form-search row">
+	<h1>Directory (Beta)</h1>
+	<div id="header-controls">
+
+<a href="#updateprofile" role="button" class="btn btn-info" data-toggle="modal">Update your profile</a>
+<div class="modal hide fade" id="updateprofile">
+	<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Update Your Profile</h3>
+  </div>
+  <div class="modal-body">
+    <form method="post" action="/api/me">
+		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
+		Room: <input name="room" value="{{ user.room }}"><br>
+		<button>Submit</button>
+		</form>
+  </div>
+	</div>
+</div>
+</form> 
+
+<div class="container-fluid">
+ <div id="person-list"> 
+
+{% for person in people %}
+<div>
+	<h3>{{ person.nickname or person.name }}</h3>
+	<p>{{ person.room }}<br>{{ person.email }}</p>
+</div>
+{% endfor %}
+</div>
+</div>
+
+{% endblock %}

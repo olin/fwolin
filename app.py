@@ -30,28 +30,28 @@ else:
 
 connection = Connection(mongodb_uri)
 db = connection[db_name]
-#db.authenticate("", "")
 
-db.users.drop()
-
-def get_session_nickname():
+def get_session_name():
 	email = session.get('email', None)
 	if not email:
 		return None
 	user = db.users.find_one(dict(email=email))
 	if user:
-		return user['name']
+		return user['nickname'] or user['name']
 	return email.split('@', 1)[0].replace('.', ' ').title()
 
-def ensure_user(email):
+def ensure_session_user():
+	email = session.get('email', None)
+	if not email:
+		return None
 	if not db.users.find_one(dict(email=email)):
-		name = email.split('@', 1)[0].replace('.', ' ').title()
 		db.users.insert(dict(
 			email=email,
-			name=name,
-			nickname=None,
-			room=None
+			name=get_session_name(),
+			nickname='',
+			room=''
 		))
+	return db.users.find_one(dict(email=session['email']))
 
 def db_user_json(user):
 	return dict(
@@ -114,7 +114,7 @@ def _consume_assertion(assertion):
 		if domain in ['@students.olin.edu', '@alumni.olin.edu', '@olin.edu']:
 			session['email'] = ret['email'].lower()
 			session.permanent = True
-			ensure_user(session['email'])
+			ensure_session_user()
 			return True
 	return False
 
@@ -152,13 +152,22 @@ def enable_auth(app, blacklist, unauthed):
 def index():
 	return render_template('index.html',
 		email=session.get('email', None),
-		name=get_session_nickname())
+		name=get_session_name())
 
 @app.route('/calendar/')
 def calendar():
 	return render_template('calendar.html',
 		email=session.get('email', None),
-		name=get_session_nickname())
+		name=get_session_name())
+
+@app.route('/directory/')
+def directory():
+	user = ensure_session_user()
+	return render_template('directory.html',
+		email=session.get('email', None),
+		name=get_session_name(),
+		user=db_user_json(ensure_session_user()),
+		people=[db_user_json(user) for user in db.users.find()])
 
 # Login/out
 
@@ -187,9 +196,20 @@ def logout():
 
 # API
 
-@app.route('/api/me')
+@app.route('/api/me', methods=['GET', 'POST'])
 def api_me():
-	return db_user_json(db.users.find_one(dict(email=session['email'])))
+	user = ensure_session_user()
+	if request.method == 'POST':
+		if request.form.has_key('name'):
+			user['name'] = request.form['name']
+		if request.form.has_key('nickname'):
+			user['nickname'] = request.form['nickname']
+		if request.form.has_key('room'):
+			user['room'] = request.form['room']
+		db.users.update({"_id": user['_id']}, user)
+		return redirect('/directory/')
+
+	return jsonify(**db_user_json(user))
 
 @app.route('/api/people')
 def api_people():
@@ -205,7 +225,7 @@ def fwolin_unauthed():
 		return Response('Please authenticate to access this resource.', 401)
 
 # All pages are accessible, but enable user accounts.
-enable_auth(app, ['/api/'], fwolin_unauthed)
+enable_auth(app, ['/api/', '/directory/'], fwolin_unauthed)
 
 # Launch
 # ------
