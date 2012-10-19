@@ -51,7 +51,8 @@ def ensure_session_user():
 			nickname='',
 			room='',
 			avatar='',
-			year=2006
+			phone='',
+			year=''
 		))
 	return db.users.find_one(dict(email=session['email']))
 
@@ -63,6 +64,7 @@ def db_user_json(user):
 		nickname=user.get('nickname'),
 		room=user.get('room'),
 		avatar=user.get('avatar'),
+		phone=user.get('phone'),
 		year=user.get('year')
 	)
 
@@ -187,7 +189,7 @@ def login():
 			else:
 				return Response(json.dumps(dict(error='Invalid callback domain: ' + request.args['callback'])), 400, {'content-type': 'application/json'})
 		if session.get('email'):
-			return redirect('/')
+			return redirect('/directory/')
 		return render_template('login.html',
 			email=session.get('email', None),
 			name=(session.get('email', '') or '').split('@')[0])
@@ -204,16 +206,9 @@ def logout():
 def api_me():
 	user = ensure_session_user()
 	if request.method == 'POST':
-		if request.form.has_key('name'):
-			user['name'] = request.form['name']
-		if request.form.has_key('nickname'):
-			user['nickname'] = request.form['nickname']
-		if request.form.has_key('room'):
-			user['room'] = request.form['room']
-		if request.form.has_key('avatar'):
-			user['avatar'] = request.form['avatar']
-		if request.form.has_key('year'):
-			user['year'] = request.form['year']
+		for key in ['name', 'nickname', 'room', 'avatar', 'year', 'phone']:
+			if request.form.has_key(key):
+				user[key] = request.form[key]
 		db.users.update({"_id": user['_id']}, user)
 		return redirect('/directory/')
 

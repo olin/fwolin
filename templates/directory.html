@@ -71,8 +71,9 @@ $(function () {
     <form method="post" action="/api/me">
     Avatar URL: <input name="avatar" value="{{ user.avatar }}"><br>
 		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
-		Room: <input name="room" value="{{ user.room }}"><br>
+		Location/Room: <input name="room" value="{{ user.room }}"><br>
 		Year: <input name="year" value="{{ user.year }}"><br>
+		Phone #: <input name="phone" value="{{ user.phone }}"><br>
 		<button>Submit</button>
 		</form>
   </div>
@@ -87,7 +88,11 @@ $(function () {
 <div>
 	<img style="float: left; width: 100px; height: 100px; margin-right: 10px;" src="{{ person.avatar }}">
 	<h3>{{ person.nickname or person.name }} {% if person.year %}({{ person.year }}){% endif %}</h3>
-	<p>{{ person.room }}<br>{{ person.email }}</p>
+	<p>
+		{% if person.room %}<b>Location:</b> {{ person.room }}<br>{% endif %}
+		{% if person.phone %}<b>Phone:</b> {{ person.phone }}<br>{% endif %}
+		<a href="mailto:{{ person.email }}">{{ person.email }}</a>
+	</p>
 </div>
 {% endfor %}
 </div>
