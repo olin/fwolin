@@ -189,7 +189,7 @@ def logout():
 
 @app.route('/api/me')
 def api_me():
-	return json.dumps(session.get('email', None))
+	return db_user_json(db.users.find_one(dict(email=session['email'])))
 
 @app.route('/api/people')
 def api_people():
