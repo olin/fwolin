@@ -4,7 +4,7 @@ import hashlib, requests, json, time, os, re, urllib
 
 from flask import Flask, session, request, redirect, url_for, render_template, jsonify, Response
 app = Flask(__name__, static_url_path='')
-Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', 'test-key-please-ignore')
+Flask.secret_key = os.environ.get('FLASK_SESSION_KEY', os.environ.get('SECRET_KEY', 'test-key-please-ignore'))
 
 PORT = int(os.environ.get('PORT', 5000))
 if 'PORT' in os.environ:
