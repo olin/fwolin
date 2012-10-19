@@ -173,7 +173,7 @@ def directory():
 		email=session.get('email', None),
 		name=get_session_name(),
 		user=db_user_json(ensure_session_user()),
-		people=[db_user_json(user) for user in db.users.find()])
+		people=[db_user_json(user) for user in db.users.find().sort('name', 1)])
 
 # Login/out
 
@@ -216,7 +216,7 @@ def api_me():
 
 @app.route('/api/people')
 def api_people():
-	return jsonify(people=[db_user_json(user) for user in db.users.find()])
+	return jsonify(people=[db_user_json(user) for user in db.users.find().sort('name', 1)])
 
 # Fwol.in Authentication
 # ----------------------
