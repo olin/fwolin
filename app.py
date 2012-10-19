@@ -222,7 +222,7 @@ def fwolin_unauthed():
 	if request.path.startswith('/api/'):
 		return Response(json.dumps({"error": "Unauthorized"}), 401, {'Content-Type': 'application/json'})
 	else:
-		return redirect('/login/?callback=' + request.path)
+		return redirect('/login/')
 
 # All pages are accessible, but enable user accounts.
 enable_auth(app, ['/api/', '/directory/'], fwolin_unauthed)
