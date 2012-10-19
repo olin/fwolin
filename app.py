@@ -33,21 +33,20 @@ db = connection[db_name]
 #db.authenticate("", "")
 
 db.users.drop()
-"""
-db.users.insert(dict(
-	email='timothy.ryan@students.olin.edu',
-	name='Timothy Ryan',
-	nickname='Tim Ryan',
-	room='EH426C'
-))
-"""
+
+def get_session_nickname():
+	email = session.get('email', None)
+	if not email:
+		return None
+	user = db.users.find_one(dict(email=email))
+	if user:
+		return user['name']
+	return email.split('@', 1)[0].replace('.', ' ').title()
 
 def ensure_user(email):
-	print("ENSURING USER", email)
-	if not db.user.find_one(dict(email=email)):
-		print("CREATING USER")
-		name = email[0:email.find('@')].replace('.', ' ').title()
-		db.user.insert(dict(
+	if not db.users.find_one(dict(email=email)):
+		name = email.split('@', 1)[0].replace('.', ' ').title()
+		db.users.insert(dict(
 			email=email,
 			name=name,
 			nickname=None,
@@ -153,13 +152,13 @@ def enable_auth(app, blacklist, unauthed):
 def index():
 	return render_template('index.html',
 		email=session.get('email', None),
-		name=(session.get('email', '') or '').split('@')[0])
+		name=get_session_nickname())
 
 @app.route('/calendar/')
 def calendar():
 	return render_template('calendar.html',
 		email=session.get('email', None),
-		name=(session.get('email', '') or '').split('@')[0])
+		name=get_session_nickname())
 
 # Login/out
 
