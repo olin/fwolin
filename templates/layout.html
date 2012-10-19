@@ -54,7 +54,7 @@ body {
   }
   #fwolin-header h1 { text-shadow: #224 1px 1px 0; text-align: center; }
   #fwolin-desc { text-align: center; margin: -5px 10px 15px; }
-  .fwolin-status { margin: 10px 10px; }
+  .fwolin-status { margin: 10px 10px; min-height: 25px; }
   #fwolin-header #contribute { line-height: 1.3; margin: 50px 10px 0; text-align: center; color: #888; text-shadow: #000 0 1px 1px; }
   #fwolin-header #contribute:hover { color: #bbb; }
   #fwolin-header div.well a {}
@@ -184,7 +184,7 @@ navigator.id.watch({
 <p class="fwolin-status">Logged in as {{ name }}. <a href="/login/?callback=/" id="signout">Logout?</a></p>
 {% else %}
 <p class="fwolin-status" style="text-align: center">
-	<a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png"></a>
+	<a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png" width="95" height="25"></a>
 </p>
 {% endif %}
 
