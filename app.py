@@ -49,7 +49,9 @@ def ensure_session_user():
 			email=email,
 			name=get_session_name(),
 			nickname='',
-			room=''
+			room='',
+			avatar='',
+			year=2006
 		))
 	return db.users.find_one(dict(email=session['email']))
 
@@ -57,9 +59,11 @@ def db_user_json(user):
 	return dict(
 		id=str(user['_id']),
 		email=user['email'],
-		name=user['name'],
-		nickname=user['nickname'],
-		room=user['room']
+		name=user.get('name'),
+		nickname=user.get('nickname'),
+		room=user.get('room'),
+		avatar=user.get('avatar'),
+		year=user.get('year')
 	)
 
 # Auth
@@ -206,6 +210,10 @@ def api_me():
 			user['nickname'] = request.form['nickname']
 		if request.form.has_key('room'):
 			user['room'] = request.form['room']
+		if request.form.has_key('avatar'):
+			user['avatar'] = request.form['avatar']
+		if request.form.has_key('year'):
+			user['year'] = request.form['year']
 		db.users.update({"_id": user['_id']}, user)
 		return redirect('/directory/')
 

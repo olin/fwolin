@@ -43,20 +43,20 @@ $(function () {
 
 <style>
 #person-list { margin-top: 20px; overflow: auto; padding-bottom: 10px; }
-#person-list div { overflow: auto; padding-bottom: 15px; box-shadow: #666 1px 1px 1px; margin-bottom: 15px; width: 275px; float: left; background: #eee; padding: 10px 15px;}
+#person-list div { overflow: auto; padding-bottom: 15px; box-shadow: #666 1px 1px 1px; margin-bottom: 15px; margin-right: 15px; width: 375px; float: left; background: #eee; padding: 10px 15px;}
 #person-list h3 { margin: 0; font-size: 20px;}
 #person-list p { }
 
 #header .header-search { padding: 5px 0 0 5px; vertical-align: baseline; }
 </style>
 
-<form id="header" class="form-search row">
+<div id="header" class="form-search row">
 	<h1>Directory (Beta)</h1>
 	<div class="input-prepend header-search">
     <span class="add-on">
         <i class="icon-search"></i>
     </span>
-	<input type="search" class="span3" placeholder="Filter items..." name="search" id="filter-input">
+	<input type="search" class="span3" placeholder="Filter names..." name="search" id="filter-input">
 </div>
 
 	<div id="header-controls">
@@ -69,21 +69,24 @@ $(function () {
   </div>
   <div class="modal-body">
     <form method="post" action="/api/me">
+    Avatar URL: <input name="avatar" value="{{ user.avatar }}"><br>
 		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
 		Room: <input name="room" value="{{ user.room }}"><br>
+		Year: <input name="year" value="{{ user.year }}"><br>
 		<button>Submit</button>
 		</form>
   </div>
 	</div>
 </div>
-</form> 
+</div> 
 
 <div class="container-fluid">
  <div id="person-list"> 
 
 {% for person in people %}
 <div>
-	<h3>{{ person.nickname or person.name }}</h3>
+	<img style="float: left; width: 100px; height: 100px; margin-right: 10px;" src="{{ person.avatar }}">
+	<h3>{{ person.nickname or person.name }} {% if person.year %}({{ person.year }}){% endif %}</h3>
 	<p>{{ person.room }}<br>{{ person.email }}</p>
 </div>
 {% endfor %}
