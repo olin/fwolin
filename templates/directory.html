@@ -1,15 +1,64 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<script>
+$(function () {
+	// Cache links list.
+	var links = {};
+	$('#person-list div').each(function () {
+		links[$('h3', this).text().toLowerCase()] = this;
+	});
+
+	// Filter lists based on a keywords array.
+	function filterList(keywords) {
+		// If there are no keywords, show all links.
+		if (!keywords.length) {
+			$.each(links, function (title, link) {
+				$(link).show()
+			});
+		} else {
+			$.each(links, function (title, link) {
+				$(link).removeClass('first')
+				$.each(keywords, function (_, keyword) {
+					if (!title.match(keyword)) {
+						$(link).hide()
+					} else {
+						$(link).show()
+					}
+				})
+			});
+		}
+	}
+
+	// Keyup filter.
+	$('#filter-input').keyup(function () {
+		// Filter keywords
+		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim);
+		filterList(keywords);
+	}).focus();
+	// Filter initially so we update shortcut link.
+	filterList([]);
+})
+</script>
+
 <style>
-#person-list { margin-top: 20px; }
-#person-list div { overflow: auto; padding-bottom: 15px; border-bottom: 1px solid #666; margin-bottom: 15px }
-#person-list h3 { float: left; margin: 0 }
-#person-list p { float: right; }
+#person-list { margin-top: 20px; overflow: auto; padding-bottom: 10px; }
+#person-list div { overflow: auto; padding-bottom: 15px; box-shadow: #666 1px 1px 1px; margin-bottom: 15px; width: 275px; float: left; background: #eee; padding: 10px 15px;}
+#person-list h3 { margin: 0; font-size: 20px;}
+#person-list p { }
+
+#header .header-search { padding: 5px 0 0 5px; vertical-align: baseline; }
 </style>
 
 <form id="header" class="form-search row">
 	<h1>Directory (Beta)</h1>
+	<div class="input-prepend header-search">
+    <span class="add-on">
+        <i class="icon-search"></i>
+    </span>
+	<input type="search" class="span3" placeholder="Filter items..." name="search" id="filter-input">
+</div>
+
 	<div id="header-controls">
 
 <a href="#updateprofile" role="button" class="btn btn-info" data-toggle="modal">Update your profile</a>
