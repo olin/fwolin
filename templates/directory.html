@@ -49,6 +49,9 @@ $(function () {
 #person-list p.description { clear: left; margin: 0; }
 #person-list p.description img { width: 20px; margin-top: 8px; }
 
+.person-image { float: left; width: 100px; max-height: 150px; min-height: 100px; margin-right: 10px; overflow: hidden; box-shadow: #666 1px 1px 1px; }
+.person-image img { width: 100px; }
+
 #header .header-search { padding: 5px 0 0 5px; vertical-align: baseline; }
 </style>
 
@@ -95,7 +98,9 @@ $(function () {
 
 {% for person in people %}
 <div class="person">
-	<img style="float: left; width: 100px; height: 100px; margin-right: 10px;" src="{{ person.avatar }}">
+	<div class="person-image">
+		<img src="{{ person.avatar }}">
+	</div>
 	<div class="person-inset">
 	<h3>{{ person.nickname or person.name }} {% if person.year %}({{ person.year }}){% endif %}</h3>
 	<p class="description">
