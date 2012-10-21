@@ -79,7 +79,24 @@ $(function () {
 		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
 		Location/Room: <input name="room" value="{{ user.room }}"><br>
 		Preferred e-mail: <input name="preferredemail" value="{{ user.preferredemail or user.email }}"><br>
-		Year: <input name="year" value="{{ user.year }}"><br>
+		Year/Position:
+		<select name="year">
+			<option value="" {% if user.year == "" %}selected{% endif %}>(blank)</option>
+			<option value="2006" {% if user.year == "2006" %}selected{% endif %}>2006</option>
+			<option value="2007" {% if user.year == "2007" %}selected{% endif %}>2007</option>
+			<option value="2008" {% if user.year == "2008" %}selected{% endif %}>2008</option>
+			<option value="2009" {% if user.year == "2009" %}selected{% endif %}>2009</option>
+			<option value="2010" {% if user.year == "2010" %}selected{% endif %}>2010</option>
+			<option value="2011" {% if user.year == "2011" %}selected{% endif %}>2011</option>
+			<option value="2012" {% if user.year == "2012" %}selected{% endif %}>2012</option>
+			<option value="2013" {% if user.year == "2013" %}selected{% endif %}>2013</option>
+			<option value="2014" {% if user.year == "2014" %}selected{% endif %}>2014</option>
+			<option value="2015" {% if user.year == "2015" %}selected{% endif %}>2015</option>
+			<option value="2016" {% if user.year == "2016" %}selected{% endif %}>2016</option>
+			<option value="Faculty" {% if user.year == "Faculty" %}selected{% endif %}>Faculty</option>
+			<option value="Staff" {% if user.year == "Staff" %}selected{% endif %}>Staff</option>
+		</select>
+		<br>
 		Phone #: <input name="phone" value="{{ user.phone }}"><br>
 		<hr>
 		Twitter ID: <input name="twitter" value="{{ user.twitter }}"><br>
