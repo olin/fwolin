@@ -1,4 +1,3 @@
-#s
 import os, random, string, requests, json, re, time
 import hashlib, requests, json, time, os, re, urllib
 
@@ -56,17 +55,14 @@ def ensure_session_user():
 		))
 	return db.users.find_one(dict(email=session['email']))
 
+USER_KEYS = ['name', 'nickname', 'room', 'avatar', 'year', 'phone',
+	'twitter', 'facebook', 'tumblr', 'skype', 'pinterest', 'lastfm'];
+
 def db_user_json(user):
-	return dict(
-		id=str(user['_id']),
-		email=user['email'],
-		name=user.get('name'),
-		nickname=user.get('nickname'),
-		room=user.get('room'),
-		avatar=user.get('avatar'),
-		phone=user.get('phone'),
-		year=user.get('year')
-	)
+	json = dict(id=str(user['_id']), email=user['email']);
+	for key in USER_KEYS:
+		json[key] = user.get(key, '')
+	return json
 
 # Auth
 # -----------
@@ -206,7 +202,7 @@ def logout():
 def api_me():
 	user = ensure_session_user()
 	if request.method == 'POST':
-		for key in ['name', 'nickname', 'room', 'avatar', 'year', 'phone']:
+		for key in USER_KEYS:
 			if request.form.has_key(key):
 				user[key] = request.form[key]
 		db.users.update({"_id": user['_id']}, user)
