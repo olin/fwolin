@@ -56,7 +56,7 @@ def ensure_session_user():
 	return db.users.find_one(dict(email=session['email']))
 
 USER_KEYS = ['name', 'nickname', 'room', 'avatar', 'year', 'phone',
-	'twitter', 'facebook', 'tumblr', 'skype', 'pinterest', 'lastfm',
+	'twitter', 'facebook', 'tumblr', 'skype', 'pinterest', 'lastfm', 'google',
 	'preferredemail'];
 
 def db_user_json(user):
