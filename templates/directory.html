@@ -49,8 +49,9 @@ $(function () {
 #person-list p.description { clear: left; margin: 0; }
 #person-list p.description img { width: 20px; margin-top: 8px; }
 
-.person-image { float: left; width: 100px; max-height: 150px; min-height: 100px; margin-right: 10px; overflow: hidden; box-shadow: #666 1px 1px 1px; }
+.person-image { float: left; width: 100px; max-height: 150px; margin-right: 10px; overflow: hidden; box-shadow: #666 1px 1px 1px; }
 .person-image img { width: 100px; }
+.person-image img[src=''] { height: 100px; }
 
 #header .header-search { padding: 5px 0 0 5px; vertical-align: baseline; }
 </style>
@@ -77,6 +78,7 @@ $(function () {
     Avatar URL: <input name="avatar" value="{{ user.avatar }}"><br>
 		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
 		Location/Room: <input name="room" value="{{ user.room }}"><br>
+		Alternate e-mail address: <input name="preferredemail" value="{{ user.preferredemail }}"><br>
 		Year: <input name="year" value="{{ user.year }}"><br>
 		Phone #: <input name="phone" value="{{ user.phone }}"><br>
 		<hr>
@@ -106,7 +108,7 @@ $(function () {
 	<p class="description">
 		{% if person.room %}<b>Location:</b> {{ person.room }}<br>{% endif %}
 		{% if person.phone %}<b>Phone:</b> <a href="tel:{{ person.phone }}">{{ person.phone }}</a><br>{% endif %}
-		<a href="mailto:{{ person.email }}">{{ person.email }}</a><br>
+		<a href="mailto:{{ person.preferredemail or person.email }}">{{ person.preferredemail or person.email }}</a><br>
 
 		{% if person.twitter %}
 		<a href="http://twitter.com/{{ person.twitter }}"><img src="/images/socialmedia/twitter.png"></a>
