@@ -78,7 +78,7 @@ $(function () {
     Avatar URL: <input name="avatar" value="{{ user.avatar }}"><br>
 		Nickname: <input name="nickname" value="{{ user.nickname }}"><br>
 		Location/Room: <input name="room" value="{{ user.room }}"><br>
-		Alternate e-mail address: <input name="preferredemail" value="{{ user.preferredemail }}"><br>
+		Preferred e-mail: <input name="preferredemail" value="{{ user.preferredemail or user.email }}"><br>
 		Year: <input name="year" value="{{ user.year }}"><br>
 		Phone #: <input name="phone" value="{{ user.phone }}"><br>
 		<hr>
