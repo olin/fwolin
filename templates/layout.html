@@ -47,14 +47,16 @@ body {
 #fwolin-header .nav-list > li > a::after { content: " →";}
 #fwolin-header .nav-list > li { height: auto; margin: 1px 0; }
 #fwolin-desc a { color: #ddd; }
+.fwolin-status { text-align: center; }
 
 @media all and (min-width: 500px) { 
   #fwolin-header {
     width: 149px; padding: 15px 0; position: fixed; top: 0; left: 0; border-right: 1px solid black; height: 100%;
   }
   #fwolin-header h1 { text-shadow: #224 1px 1px 0; text-align: center; }
-  #fwolin-desc { text-align: center; margin: -5px 10px 15px; }
-  .fwolin-status { margin: 10px 10px; min-height: 25px; color: #ddd; }
+  #fwolin-desc { text-align: center; margin: -5px 10px 10px; }
+  .fwolin-status { margin: 0px 0 16px; min-height: 25px; color: #ddd; font-size: 14px; }
+  #fwolin-header .fwolin-status span { vertical-align: middle; }
   #fwolin-header #contribute { line-height: 1.3; margin: 50px 10px 0; text-align: center; color: #888; text-shadow: #000 0 1px 1px; }
   #fwolin-header #contribute:hover { color: #bbb; }
   #fwolin-header div.well a {}
@@ -71,8 +73,9 @@ body {
   .fwolin-status { display: none; }
 }
 
-#olinstar { padding-top: 1.8em; font-size: 16px; padding-left: 0.4em; line-height: 1.5; text-shadow: black 0 1px 1px; margin: -15px 10px 0;}
-#olinstar a { color: #ddd; text-decoration: none;  opacity: 0.9; }
+#olinstar { padding-top: 1em; font-size: 16px; padding-left: 0.4em; line-height: 1.5; text-shadow: black 0 1px 1px; margin: -15px 10px 0;}
+#olinstar a { color: #ddd; text-decoration: none; opacity: 0.95; display: block; margin-bottom: 6px; }
+#olinstar br { display: none; }
 #olinstar a:hover { opacity: 1.0;  }
 #olinstar b::after { content: " →"; }
 #olinstar b { font-weight: normal; } 
@@ -159,7 +162,15 @@ navigator.id.watch({
 <body>
 <div id="fwolin-header">
 <h1><a href="/" class="fwolin-brand">fwol.in</a></h1>
+
+{% if email %}
+<p class="fwolin-status"><span>{{ name }}</span> &nbsp; <a href="/login/?callback=/" id="signout" title="Logout of fwol.in" class="btn btn-inverse btn-mini"><i class="icon-off icon-white"></i></a></p>
+{% else %}
 <p id="fwolin-desc"><a href="#fwolin-about" role="button" data-toggle="modal">An online portal for the Olin community.</a></p>
+<p class="fwolin-status">
+  <a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png" width="95" height="25"></a>
+</p>
+{% endif %}
 
 <div class="well">
 <ul id="nav" class="nav nav-list">
@@ -180,14 +191,6 @@ navigator.id.watch({
 -->
 </ul>
 </div>
-
-{% if email %}
-<p class="fwolin-status">Logged in as {{ name }}. <a href="/login/?callback=/" id="signout">Logout?</a></p>
-{% else %}
-<p class="fwolin-status" style="text-align: center">
-	<a href="http://fwol.in/login/?callback=http://fwol.in/" id="signin"><img src="https://developer.mozilla.org/files/3967/plain_sign_in_black.png" width="95" height="25"></a>
-</p>
-{% endif %}
 
 <p id="olinstar">
 <a href="http://olinstudents.com/">olin<b class="students">students</b></a>
