@@ -65,6 +65,27 @@ def db_user_json(user):
 		json[key] = user.get(key, '')
 	return json
 
+# Sessions.
+
+import uuid
+
+def lookup_session(id):
+	sess = db.sessions.find_one(dict(_id=id))
+	if sess:
+			session['email'] = sess['email']
+
+def create_session(email, description):
+	id = str(uuid.uuid1())
+	db.sessions.insert(dict(
+		_id=id,
+		email=email,
+		description=description
+		))
+	return id
+
+def destroy_session(id):
+	pass
+
 # Auth
 # -----------
 
@@ -121,29 +142,18 @@ def _consume_assertion(assertion):
 			return True
 	return False
 
-AUTH_CACHE = dict()
-
 # Enable authentication on an application.
-def enable_auth(app, blacklist, unauthed):
+def enable_auth(app, whitelist, blacklist, unauthed):
 	@app.before_request
 	def auth():
 		# LDAP authorization.
-		if request.headers.get('Authorization'):
-			if AUTH_CACHE.get(request.headers.get('Authorization')):
-				session['email'] = AUTH_CACHE.get(request.headers.get('Authorization'))
-			elif request.headers.get('Authorization', '')[0:6] == 'Basic ':
-				bundle = base64.b64decode(request.headers.get('Authorization', '')[6:])
-				if bundle.find(':') > -1:
-					try:
-						username, password = bundle.split(':')
-						email = network_login('MILKYWAY', username, password)
-						if email:
-							AUTH_CACHE[request.headers.get('Authorization')] = email.lower()
-							session['email'] = email.lower()
-					except Exception, e:
-						pass
+		if request.args.get('sessionid'):
+			lookup_session(request.args.get('sessionid'))
 
 		if not session.get('email'):
+			for item in whitelist:
+				if request.path == item:
+					return
 			for item in blacklist:
 				if item == '*' or request.path.startswith(item):
 					return unauthed()
@@ -180,13 +190,17 @@ def login():
 		_consume_assertion(request.form['assertion'])
 		return redirect('/')
 	else:
-		if request.args.get('callback', None) and session.get('email', None):
-			if re.match(r'^http://([a-z_\-]+\.olinapps\.com|localhost(:[0-9]+)?)\/', request.args['callback']):
-				return redirect(request.args['callback'] + '?code=' + urllib.quote_plus(request.cookies.get(app.session_cookie_name)))
+		# External login.
+		if request.args.has_key('external') and session.get('email'):
+			if re.match(r'^(/|http://([a-z_\-]+\.olinapps\.com|localhost(:[0-9]+)?)(\/|$))', request.args['callback']):
+				sessionid = create_session(session['email'], request.args['callback'])
+				return redirect(request.args['callback'] + '?sessionid=' + sessionid)
 			else:
 				return Response(json.dumps(dict(error='Invalid callback domain: ' + request.args['callback'])), 400, {'content-type': 'application/json'})
+		# Normal callback
 		if session.get('email'):
-			return redirect('/directory/')
+			return redirect(request.args.get('callback', '/directory/'))
+		# Login page.
 		return render_template('login.html',
 			email=session.get('email', None),
 			name=(session.get('email', '') or '').split('@')[0])
@@ -198,6 +212,15 @@ def logout():
 	return redirect('/')
 
 # API
+
+@app.route('/api/exchangelogin', methods=['GET', 'POST'])
+def api_exchangelogin():
+	if request.form.has_key('username') and request.form.has_key('password'):
+		email = network_login('MILKYWAY', request.form['username'], request.form['password'])
+		if email:
+			sessionid = create_session(email, request.form.get('description', 'Anonymous Exchange login'))
+			return Response(json.dumps({"sessionid": sessionid}), 200, {'Content-Type': 'application/json'})
+	return Response(json.dumps({"error": "Unauthorized"}), 401, {'Content-Type': 'application/json'})
 
 @app.route('/api/me', methods=['GET', 'POST'])
 def api_me():
@@ -225,7 +248,7 @@ def fwolin_unauthed():
 		return redirect('/login/')
 
 # All pages are accessible, but enable user accounts.
-enable_auth(app, ['/api/', '/directory/'], fwolin_unauthed)
+enable_auth(app, ['/api/exchangelogin'], ['/api/', '/directory/'], fwolin_unauthed)
 
 # Launch
 # ------
