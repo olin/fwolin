@@ -3,6 +3,8 @@
 
 <script>
 $(function () {
+	var ANIM_SPEED = 'fast';
+	
 	// Cache links list.
 	var links = {};
 	$('#person-list div.person').each(function () {
@@ -11,6 +13,9 @@ $(function () {
 
 	// Filter lists based on a keywords array.
 	function filterList(keywords) {
+		// When filtering, hide headers.
+		keywords.length ? $('.container-fluid h2').hide(ANIM_SPEED) : $('.container-fluid h2').show(ANIM_SPEED);
+
 		// If there are no keywords, show all links.
 		if (!keywords.length) {
 			$.each(links, function (title, link) {
