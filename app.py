@@ -63,6 +63,7 @@ def db_user_json(user):
 	json = dict(id=str(user['_id']), email=user['email']);
 	for key in USER_KEYS:
 		json[key] = user.get(key, '')
+	json['domain'] = user['email'].split('@', 1)[1]
 	return json
 
 # Sessions.
