@@ -51,7 +51,12 @@ $(function () {
 		// Filter keywords
 		var keywords = $.grep($('#filter-input').val().toLowerCase().split(/\s+/), $.trim);
 		filterList(keywords);
-	}).focus();
+	})
+
+	if (!isMobile) {
+		$('#filter-input').focus();
+	}
+
 	// Filter initially so we update shortcut link.
 	filterList([]);
 

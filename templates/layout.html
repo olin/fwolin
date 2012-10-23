@@ -40,10 +40,10 @@ body {
   color: white;
 }
 #fwolin-header p { line-height: 1.3;}
-#fwolin-header .nav-list { padding: 0; }
+#fwolin-header .nav-list, #fwolin-header .nav-list li { display: block; margin: 0; padding: 0; }
 #fwolin-header .nav-list > li > a { padding: 5px 10px; background: #777; margin: 0; color: #ddd; text-shadow: #000 0 1px 1px; font-size: 16px; }
-#fwolin-header .nav-list > li > a:hover { background: #999; }
-#fwolin-header .nav-list > li > a:active { background: #aaa;}
+#fwolin-header .nav-list > li > a:hover { background-color: #999; }
+#fwolin-header .nav-list > li > a:active { background-color: #aaa;}
 #fwolin-header .nav-list > li > a::after { content: " →";}
 #fwolin-header .nav-list > li { height: auto; margin: 1px 0; }
 #fwolin-desc a { color: #ddd; }
@@ -61,27 +61,33 @@ body {
   #fwolin-header #contribute:hover { color: #bbb; }
   #fwolin-header div.well a {}
   #fwolin-header div.well { padding: 0; margin: 12px 0 15px; background: none; border: none; border-radius: 0; }
-}
-@media all and (max-width: 499px) { 
-  #fwolin-header { position: relative; margin: 0; height: 64px; }
-  #fwolin-header h1 { padding: 10px 0 0 15px; margin: 0; }
-  #fwolin-header .nav-list { position: absolute; top: 0; right: 0; }
-  #fwolin-header .nav-list > li { float: left; padding: 0; margin: 0; box-shadow: none; }
-  #fwolin-header .nav-list > li > a { width: 62px; height: 62px; padding: 0; border: 1px solid #888; }
-  #fwolin-desc { display: none; }
-  #fwolin-header div.well { padding: 0; margin: 0; background: transparent; min-height: 0; }
-  .fwolin-status { display: none; }
-}
 
-#olinstar { padding-top: 1em; font-size: 16px; padding-left: 0.4em; line-height: 1.5; text-shadow: black 0 1px 1px; margin: -15px 10px 0;}
-#olinstar a { color: #ddd; text-decoration: none; opacity: 0.95; display: block; margin-bottom: 6px; }
-#olinstar br { display: none; }
-#olinstar a:hover { opacity: 1.0;  }
-#olinstar b::after { content: " →"; }
-#olinstar b { font-weight: normal; } 
-#olinstar .students { color: #3ac; }
-#olinstar .apps { color: #c26; }
-#olinstar .projects { color: #f90; }
+  #olinstar { padding-top: 1em; font-size: 16px; padding-left: 0.4em; line-height: 1.5; text-shadow: black 0 1px 1px; margin: -15px 10px 0;}
+  #olinstar a { color: #ddd; text-decoration: none; opacity: 0.95; display: block; margin-bottom: 6px; }
+  #olinstar br { display: none; }
+  #olinstar a:hover { opacity: 1.0;  }
+  #olinstar b::after { content: " →"; }
+  #olinstar b { font-weight: normal; } 
+  #olinstar .students { color: #3ac; }
+  #olinstar .apps { color: #c26; }
+  #olinstar .projects { color: #f90; }
+}
+@media all and (max-width: 499px) {
+  .container-fluid { padding: 0 10px; }
+  #fwolin-header { position: relative; margin: 0; }
+  #fwolin-header h1 { padding: 10px 0 0 10px; margin: 0; height: 42px; }
+
+  #fwolin-header .nav-list > li { margin: 0; box-shadow: none; }
+  #fwolin-header .nav-list > li > a { position: absolute; top: 0; padding: 0; width: 0; height: 50px; padding: 0 0 0 50px; border: 1px solid #888; overflow: hidden; background-size: 50px 50px; }
+  #fwolin-header .nav-list > .link-launchpad > a { background-image: url(/images/logo.png); right: 104px; }
+  #fwolin-header .nav-list > .link-calendar > a { background-image: url(http://a.dryicons.com/images/icon_sets/colorful_stickers_part_4_icons_set/png/256x256/calendar.png); right: 52px; }
+  #fwolin-header .nav-list > .link-directory > a { background-image: url(http://www.veryicon.com/icon/png/Avatar/People/People.png); right: 0; }
+
+  #fwolin-desc { display: none; }
+  #fwolin-header div.well { padding: 0; margin: 0; background: transparent; min-height: 0; border: none; }
+  .fwolin-status { background: #222; padding: 5px 0; margin: 0; }
+  #olinstar, #contribute { display: none; }
+}
 
 /*
  * page
@@ -92,11 +98,25 @@ body {
 #header-controls { float: right; margin: 5px 20px 0 0; }
 
 @media all and (max-width: 499px) { 
+  #header { height: auto; min-height: 55px; }
+  #header h1 { font-size: 24px; }
   #header-controls { display: none; }
 }
 </style>
 
 <script>
+
+var isMobile = /mobi/i.test(navigator.userAgent);
+
+// http://remysharp.com/2010/08/05/doing-it-right-skipping-the-iphone-url-bar/
+if (isMobile && !location.hash) {
+  setTimeout(function () {
+    if (!pageYOffset) {
+      window.scrollTo(0, 1);
+    }
+  }, 1000);
+}
+
 $(function () {
 	var signinLink = document.getElementById('signin');
 	if (signinLink) {
@@ -174,9 +194,9 @@ navigator.id.watch({
 
 <div class="well">
 <ul id="nav" class="nav nav-list">
-  <li><a href="/" title="Launchpad">Launchpad</a></li>
-  <li><a href="/calendar/" title="Student Event Calendar">Calendar</a></li> 
-  <li><a href="/directory/" title="Directory">Directory</a></li> 
+  <li class="link-launchpad"><a href="/" title="Launchpad">Launchpad</a></li>
+  <li class="link-calendar"><a href="/calendar/" title="Student Event Calendar">Calendar</a></li> 
+  <li class="link-directory"><a href="/directory/" title="Directory">Directory</a></li> 
 <!--
 <li><a href="http://mrwiki.olin.edu" title="Mr. Wiki" target="content">Wiki</a></li>
 <li><a href="http://seamlist.fwol.in" title="Seamlist" target="content"><img src="/images/seamlist.jpeg"> Mailing Lists</a></li>
