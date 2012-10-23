@@ -84,16 +84,16 @@ $(function () {
 	<div id="header-controls">
 
 <a href="#updateprofile" role="button" class="btn btn-info" data-toggle="modal">Update your profile</a>
+    <form method="post" action="/api/me">
 <div class="modal hide fade" id="updateprofile">
 	<div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Update Your Profile</h3>
   </div>
   <div class="modal-body">
-    <form method="post" action="/api/me">
     Avatar: <input name="avatar" type="filepicker"><br>
 		Nickname: <input type="text" name="nickname" value="{{ user.nickname }}"><br>
-		Location/Room: <input type="text" name="room" value="{{ user.room }}"><br>
+		Location/Room: <input type="text" name="room" placeholder="WH000" value="{{ user.room }}"><br>
 		Preferred e-mail: <input type="text" name="preferredemail" value="{{ user.preferredemail or user.email }}"><br>
 		Year/Position:
 		<select name="year">
@@ -113,7 +113,8 @@ $(function () {
 			<option value="Staff" {% if user.year == "Staff" %}selected{% endif %}>Staff</option>
 		</select>
 		<br>
-		Phone #: <input type="text" name="phone" value="{{ user.phone }}"><br>
+		Phone #: <input type="text" name="phone" placeholder="000-000-0000" value="{{ user.phone }}"><br>
+		Mailbox #/Mail Address: <input type="text" name="phone" placeholder="MB000" value="{{ user.mail }}"><br>
 		<hr>
 		Facebook ID: <input type="text" name="facebook" value="{{ user.facebook }}"><br>
 		Skype ID: <input type="text" name="skype" value="{{ user.skype }}"><br>
@@ -122,12 +123,15 @@ $(function () {
 		Last.fm ID: <input type="text" name="lastfm" value="{{ user.lastfm }}"><br>
 		Tumblr ID: <input type="text" name="tumblr" value="{{ user.tumblr }}"><br>
 		Pinterest ID: <input type="text" name="pinterest" value="{{ user.pinterest }}"><br>
-		</form>
+		
   </div>
   <div class="modal-footer">
+  	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		<button class="btn btn-success">Save Changes</button>
   </div>
 	</div>
+  </form>
+
 </div>
 </div> 
 
