@@ -78,7 +78,7 @@ $(function () {
     <span class="add-on">
         <i class="icon-search"></i>
     </span>
-	<input type="search" class="span3" placeholder="Filter names..." name="search" id="filter-input">
+	<input type="search" class="span3" placeholder="Filter names or by year..." name="search" id="filter-input">
 </div>
 
 	<div id="header-controls">
@@ -122,8 +122,10 @@ $(function () {
 		Last.fm ID: <input type="text" name="lastfm" value="{{ user.lastfm }}"><br>
 		Tumblr ID: <input type="text" name="tumblr" value="{{ user.tumblr }}"><br>
 		Pinterest ID: <input type="text" name="pinterest" value="{{ user.pinterest }}"><br>
-		<button class="btn btn-submit">Submit</button>
 		</form>
+  </div>
+  <div class="modal-footer">
+		<button class="btn btn-success">Save Changes</button>
   </div>
 	</div>
 </div>

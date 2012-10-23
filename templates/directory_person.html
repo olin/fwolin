@@ -5,9 +5,9 @@
 	<div class="person-inset">
 	<h3 title="{{ person.name }}">{{ person.nickname or person.name }} {% if person.year %}({{ person.year }}){% endif %}</h3>
 	<p class="description">
-		{% if person.room %}<b>Location:</b> {{ person.room }}<br>{% endif %}
-		{% if person.phone %}<b>Phone:</b> <a href="tel:{{ person.phone }}">{{ person.phone }}</a><br>{% endif %}
-		<a href="mailto:{{ person.preferredemail or person.email }}">{{ person.preferredemail or person.email }}</a><br>
+		{% if person.room %}{{ person.room }}<br>{% endif %}
+		{% if person.phone %}<a href="tel:{{ person.phone }}">{{ person.phone }}</a><br>{% endif %}
+		<a href="mailto:{{ person.preferredemail or person.email }}" title="person.email">{{ person.preferredemail or person.email }}</a><br>
 
 		{% if person.facebook %}
 		<a href="http://facebook.com/{{ person.facebook }}"><img src="/images/socialmedia/facebook.png"></a>
