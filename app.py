@@ -127,7 +127,7 @@ def network_login(dn, user, password):
 
 		# parse result
 		return re.search(r'<t:EmailAddress>([^<]+)</t:EmailAddress>', res).group(1)
-	except Error, e:
+	except Exception, e:
 		return False
 
 # Returns whether we can establish a session or not.
